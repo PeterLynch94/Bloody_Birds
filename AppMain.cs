@@ -38,7 +38,10 @@ namespace Bloody_Birds
 		private static Sce.PlayStation.HighLevel.UI.Scene 				uiScene;
 		private static Sce.PlayStation.HighLevel.UI.Label				scoreLabel;
 		private static Sce.PlayStation.HighLevel.UI.Label				titleLabel;
+		private static Sce.PlayStation.HighLevel.UI.Label[]				miscLabels;
 		private static Sce.PlayStation.HighLevel.UI.Label[]				scoreBoardLabels;
+		
+		private static Sce.PlayStation.HighLevel.UI.Button				buttonA;
 		
 		private static bool 				quitGame;
 		private static int 					score;
@@ -47,6 +50,8 @@ namespace Bloody_Birds
 		private static gS					gameState;
 		private static int[] 				scoreBoard;
 		private static int 					scoreSlotCount;
+		
+		private static int					screenW, screenH;
 		
 		private static string				scorePath;			
 		
@@ -84,6 +89,8 @@ namespace Bloody_Birds
 			scorePath = "/Documents/HighScores.txt";
 			load (scorePath, scoreBoard);
 			
+			
+			
 			Director.Initialize ();
 			UISystem.Initialize(Director.Instance.GL.Context);
 			
@@ -94,20 +101,38 @@ namespace Bloody_Birds
 			//Set the ui scene.
 			uiScene = new Sce.PlayStation.HighLevel.UI.Scene();
 			
+			//Set screenW and screenH to screen width/height respectively for convienience
+			
+			
 			//Setup Panel
 			Panel panel  = new Panel();
 			panel.Width  = Director.Instance.GL.Context.GetViewport().Width;
 			panel.Height = Director.Instance.GL.Context.GetViewport().Height;
+			screenW = Director.Instance.GL.Context.GetViewport().Width;
+			screenH = Director.Instance.GL.Context.GetViewport().Height;
 			
-			//Setup Labels
-			scoreLabel = makeLabel(scoreLabel, panel, -300, 2);
-			scoreLabel.Visible = false;
-			titleLabel = makeLabel(titleLabel, panel, -100, 50);
+		
+			titleLabel = makeLabel(titleLabel, panel, screenW/2 - (100), 100);
 			scoreBoardLabels = new Sce.PlayStation.HighLevel.UI.Label[scoreSlotCount];
 			for(int i = 0; i < scoreSlotCount - 1; i++)
 			{
-				scoreBoardLabels[i] = makeLabel(scoreBoardLabels[i], panel, 50, i*100);
+				scoreBoardLabels[i] = makeLabel(scoreBoardLabels[i], panel, (screenW/2) + 50, 30+i*100);
 			}
+				//Setup Labels
+			scoreLabel = makeLabel(scoreLabel, panel, screenW/2, screenH/2);
+			scoreLabel.Visible = false;
+			buttonA = new Button();
+			buttonA.Name = "buttonPlay";
+            buttonA.Text = "Play Game";
+            buttonA.Width = 300;
+            buttonA.Height = 50;
+            buttonA.Alpha = 0.8f;
+            buttonA.SetPosition(panel.Width/2 - 150,200.0f);
+			buttonA.TouchEventReceived += (sender, e) => {
+           Console.WriteLine("It worked");
+            };
+			panel.AddChildLast(buttonA);
+			uiScene.RootWidget.AddChildLast(panel);
 			UISystem.SetScene(uiScene);
 			
 			//Run the scene.
@@ -206,6 +231,9 @@ namespace Bloody_Birds
 			}
 		}
 		
+		//Sort through the scoreBoard array and see if any scores are less than the new score
+		//If yes then sort out the array to store the new score and re arrange the old ones appropriately
+		//Else do nothing
 		public static void scoreCalc()
 		{
 			for(int i = 0; i < scoreSlotCount - 1; i++)
@@ -227,20 +255,33 @@ namespace Bloody_Birds
 			}
 		}
 		
+		//Makes a label
 		public static Sce.PlayStation.HighLevel.UI.Label makeLabel(Sce.PlayStation.HighLevel.UI.Label l, Panel p, int w, int h)
 		{
 			l = new Sce.PlayStation.HighLevel.UI.Label();
 			l.HorizontalAlignment = HorizontalAlignment.Center;
 			l.VerticalAlignment = VerticalAlignment.Top;
-			l.SetPosition(
-				Director.Instance.GL.Context.GetViewport().Width/2 + w,
-				Director.Instance.GL.Context.GetViewport().Height/8 + h);
+			l.SetPosition(w, h);
 			l.Text = "";
 			p.AddChildLast(l);
-			uiScene.RootWidget.AddChildLast(p);
 			return l;
 		}
 		
+		//Makes a button
+		public static Sce.PlayStation.HighLevel.UI.Button makeButton(Sce.PlayStation.HighLevel.UI.Button b, Panel p, int w, int h)
+		{
+			b = new Button();
+			//b.VerticalAlignment = VerticalAlignment.Top;
+			//b.SetPosition(w, h);
+			//b.Text = "";
+			//UIColor u = new UIColor(50.0f, 20.0f, 10.0f, 100.0f);
+			//b.BackgroundFilterColor = u;
+			//p.AddChildLast(b);
+			//uiScene.RootWidget.AddChildLast(p);
+			return b;
+		}
+		
+		//saves scores to/from file
 		public static void save(string path, int[] scoreB)
 		{
 			byte[] result = new byte[scoreB.Length * sizeof(int)];
