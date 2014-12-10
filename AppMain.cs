@@ -46,7 +46,7 @@ namespace Bloody_Birds
 		private static string				scoreString;
 		private static gS					gameState;
 		private static int[] 				scoreBoard;
-		private static int 					scoreSlotCount;
+		private static int 					scoreSlotCount; // comment
 		
 		private static string				scorePath;			
 		
