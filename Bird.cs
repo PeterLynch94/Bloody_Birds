@@ -39,7 +39,7 @@ namespace Bloody_Birds
 			alive = true;
 			
 			//Add to the current scene.
-			scene.AddChild(sprite);
+			//scene.AddChild(sprite);
 		}
 		
 		public void Dispose()

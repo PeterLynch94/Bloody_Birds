@@ -40,6 +40,8 @@ namespace Bloody_Birds
 		private static Sce.PlayStation.HighLevel.UI.Label				titleLabel;
 		private static Sce.PlayStation.HighLevel.UI.Label[]				scoreBoardLabels;
 		
+		public static int ScreenWidth;
+		public static int ScreenHeight;
 		private static bool 				quitGame;
 		private static int 					score;
 		private static int					timer;
@@ -48,6 +50,7 @@ namespace Bloody_Birds
 		private static int[] 				scoreBoard;
 		private static int 					scoreSlotCount; // comment
 		private static Bird					bird;
+		private static Enemy				enemyBird;
 		
 		private static string				scorePath;			
 		
@@ -94,7 +97,8 @@ namespace Bloody_Birds
 			Director.Initialize ();
 			UISystem.Initialize(Director.Instance.GL.Context);
 			
-			
+			ScreenWidth = Director.Instance.GL.Context.Screen.Width;
+			ScreenHeight = Director.Instance.GL.Context.Screen.Height;
 			
 			CreateStartGameScene();
 			
@@ -106,6 +110,9 @@ namespace Bloody_Birds
 			GameOverScene();
 			//create the bird
 			bird = new Bird(gameScene);
+			
+			//create the enemy
+			enemyBird = new Enemy(gameScene);
 			
 			//Set the ui scene.
 			uiScene = new Sce.PlayStation.HighLevel.UI.Scene();
@@ -157,6 +164,13 @@ namespace Bloody_Birds
 			
 			//Update the bird.
 			bird.Update(0.0f);
+			
+			 
+			
+				//enemyBird.Update(0.0f, bird.Sprite);
+			enemyBird.Update(0.0f, bird.Sprite);
+			
+			
 			//Set scoreleval to the current value of Score
 			scoreLabel.Text = score.ToString ();
 			
