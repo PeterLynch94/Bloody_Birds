@@ -49,4 +49,20 @@
     <PsmMetadata Include="app.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Sce\Sce.Psm.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="textures\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="textures\Black Bird %28Wings Down%29.png" />
+    <Content Include="textures\Black Bird %28Wings Up%29.png" />
+    <Content Include="textures\Brown Bird %28Wings Down%29.png" />
+    <Content Include="textures\Brown Bird %28Wings Up%29.png" />
+    <Content Include="textures\Dead Bird.png" />
+    <Content Include="textures\Menu %28Button%29.png" />
+    <Content Include="textures\Next Level %28Button%29.png" />
+    <Content Include="textures\Retry Level %28Button%29.png" />
+    <Content Include="textures\Success %28Score Board%29.png" />
+    <Content Include="textures\Background.png" />
+    <Content Include="textures\GameMenu.png" />
+  </ItemGroup>
 </Project>

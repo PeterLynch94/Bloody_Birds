@@ -10,7 +10,7 @@ using Sce.PlayStation.Core.Input;
 using Sce.PlayStation.HighLevel.GameEngine2D;
 using Sce.PlayStation.HighLevel.GameEngine2D.Base;
 using Sce.PlayStation.HighLevel.UI;
-
+//REAL
 //enum to control game state
 enum gS
 {
@@ -34,7 +34,7 @@ namespace Bloody_Birds
 {
 	public class AppMain
 	{
-		private static Sce.PlayStation.HighLevel.GameEngine2D.Scene 	gameScene;
+		private static Sce.PlayStation.HighLevel.GameEngine2D.Scene 	gameScene, startScene, gameOverScene;
 		private static Sce.PlayStation.HighLevel.UI.Scene 				uiScene;
 		private static Sce.PlayStation.HighLevel.UI.Label				scoreLabel;
 		private static Sce.PlayStation.HighLevel.UI.Label				titleLabel;
@@ -59,7 +59,7 @@ namespace Bloody_Birds
 			while (!quitGame) 
 			{
 				Update ();
-				
+				Director.Instance.GL.Context.Clear();
 				Director.Instance.Update();
 				Director.Instance.Render();
 				UISystem.Render();
@@ -87,9 +87,19 @@ namespace Bloody_Birds
 			Director.Initialize ();
 			UISystem.Initialize(Director.Instance.GL.Context);
 			
-			//Set game scene
-			gameScene = new Sce.PlayStation.HighLevel.GameEngine2D.Scene();
-			gameScene.Camera.SetViewFromViewport();
+			// Start screen
+			startScene = new Sce.PlayStation.HighLevel.GameEngine2D.Scene();
+			startScene.Camera.SetViewFromViewport();
+			TextureInfo startSceneBackground = new TextureInfo("/Application/textures/GameMenu.png");
+			SpriteUV sprBackground = new SpriteUV(startSceneBackground);
+			sprBackground.Quad.S = startSceneBackground.TextureSizef;
+			
+			sprBackground.Position = new Vector2(0,0);
+			startScene.AddChild(sprBackground);
+			
+			
+			// Create game scren
+			CreateGameScene();	
 			
 			//Set the ui scene.
 			uiScene = new Sce.PlayStation.HighLevel.UI.Scene();
@@ -111,7 +121,7 @@ namespace Bloody_Birds
 			UISystem.SetScene(uiScene);
 			
 			//Run the scene.
-			Director.Instance.RunWithScene(gameScene, true);
+			Director.Instance.RunWithScene(startScene, true);
 		}
 
 		public static void Update ()
@@ -148,6 +158,12 @@ namespace Bloody_Birds
 				
 				if(touch.Count > 0 && timer <= 0)
 				{
+					//startScene.RegisterDisposeOnExitRecursive();
+					//startScene.RemoveAllChildren(true);
+					//Director.Instance.PopScene();
+					
+					Director.Instance.ReplaceScene(gameScene);
+					
 					gameState = gS.GAME;
 					timer = 10;
 					scoreLabel.Visible = true;
@@ -158,6 +174,7 @@ namespace Bloody_Birds
 			//gs.GAME = main game screen
 			if(gameState == gS.GAME)
 			{
+				
 				titleLabel.Text = "Main Game Screen";
 				score++;
 				if(touch.Count > 0 && timer <= 0)
@@ -297,5 +314,20 @@ namespace Bloody_Birds
                 }
             }
          }
+		
+		private static void CreateGameScene()
+		{
+			//Set game scene
+			gameScene = new Sce.PlayStation.HighLevel.GameEngine2D.Scene();
+			gameScene.Camera.SetViewFromViewport();
+			
+			
+			TextureInfo text = new TextureInfo("/Application/textures/Background.png");
+			SpriteUV background = new SpriteUV(text);
+			background.Quad.S = text.TextureSizef; // set size of background
+			background.Position = new Vector2(0, 0);
+			
+			gameScene.AddChild(background);	
+		}
 	}
 }
