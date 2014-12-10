@@ -40,6 +40,7 @@
   <ItemGroup>
     <Compile Include="AppMain.cs" />
     <Compile Include="enemy.cs" />
+    <Compile Include="Bird.cs" />
   </ItemGroup>
   <ItemGroup>
     <ShaderProgram Include="shaders\Simple.fcg" />
@@ -53,7 +54,6 @@
     <Folder Include="textures\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="textures\Black Bird %28Wings Down%29.png" />
     <Content Include="textures\Black Bird %28Wings Up%29.png" />
     <Content Include="textures\Brown Bird %28Wings Down%29.png" />
     <Content Include="textures\Brown Bird %28Wings Up%29.png" />
@@ -65,5 +65,6 @@
     <Content Include="textures\GameMenu.png" />
     <Content Include="textures\ScoreBoard.png" />
     <Content Include="textures\score.png" />
+    <Content Include="textures\bird.png" />
   </ItemGroup>
 </Project>

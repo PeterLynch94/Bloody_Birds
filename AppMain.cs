@@ -47,6 +47,7 @@ namespace Bloody_Birds
 		private static gS					gameState;
 		private static int[] 				scoreBoard;
 		private static int 					scoreSlotCount; // comment
+		private static Bird					bird;
 		
 		private static string				scorePath;			
 		
@@ -68,6 +69,12 @@ namespace Bloody_Birds
 				Director.Instance.PostSwap();
 			}
 			//Game ended, time to clean up
+			//Clean up after ourselves.
+			bird.Dispose();
+			 
+			
+			Director.Terminate ();
+
 		}
 		
 		public static void Initialize ()
@@ -88,6 +95,7 @@ namespace Bloody_Birds
 			UISystem.Initialize(Director.Instance.GL.Context);
 			
 			
+			
 			CreateStartGameScene();
 			
 			// Create game scren
@@ -96,6 +104,8 @@ namespace Bloody_Birds
 			ScoreScene();
 			
 			GameOverScene();
+			//create the bird
+			bird = new Bird(gameScene);
 			
 			//Set the ui scene.
 			uiScene = new Sce.PlayStation.HighLevel.UI.Scene();
@@ -141,7 +151,12 @@ namespace Bloody_Birds
 			
 			// check to see if screen has been touched
 			var touch = Touch.GetData (0);
+			//If tapped, inform the bird.
+			if(touch.Count > 0)
+				bird.Tapped();
 			
+			//Update the bird.
+			bird.Update(0.0f);
 			//Set scoreleval to the current value of Score
 			scoreLabel.Text = score.ToString ();
 			
@@ -160,7 +175,7 @@ namespace Bloody_Birds
 					//startScene.RegisterDisposeOnExitRecursive();
 					//startScene.RemoveAllChildren(true);
 					//Director.Instance.PopScene();
-					
+				
 					Director.Instance.ReplaceScene(gameScene);
 						 
 					gameState = gS.GAME;
@@ -184,14 +199,15 @@ namespace Bloody_Birds
 					
 				}
 			}
-			
+			var GamePadData = GamePad.GetData(0);
 			//gs.SCORE = post defeat/victory score screen
 			if(gameState == gS.SCORE)
 			{
-		
-				titleLabel.Text = "Score Screen";
-			
-				if(touch.Count > 0 && timer <= 0)
+
+				titleLabel.Text = "Score Screen";//one sec
+				
+				if(((GamePadData.Buttons & GamePadButtons.Up) != 0) && timer <= 0)
+				//if(touch.Count > 0 && timer <= 0)
 				{
 				
 					gameState = gS.HSCORE;
@@ -376,5 +392,7 @@ namespace Bloody_Birds
 			sprSCore.Position = new Vector2(180,150);
 			gameOverScene.AddChild(sprSCore);
 		}
+		
+	 
 	}
 }
