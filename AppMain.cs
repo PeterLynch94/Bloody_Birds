@@ -167,7 +167,7 @@ namespace Bloody_Birds
 			
 			 
 			
-				//enemyBird.Update(0.0f, bird.Sprite);
+			//enemyBird.Update(0.0f, bird.Sprite);
 			enemyBird.Update(0.0f, bird.Sprite);
 			
 			
@@ -220,8 +220,8 @@ namespace Bloody_Birds
 
 				titleLabel.Text = "Score Screen";//one sec
 				
-				if(((GamePadData.Buttons & GamePadButtons.Up) != 0) && timer <= 0)
-				//if(touch.Count > 0 && timer <= 0)
+				//if(((GamePadData.Buttons & GamePadButtons.Up) != 0) && timer <= 0)
+				if(touch.Count > 0 && timer <= 0)
 				{
 				
 					gameState = gS.HSCORE;

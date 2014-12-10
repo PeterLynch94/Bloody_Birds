@@ -90,16 +90,12 @@ C:\Users\immy\Desktop\Bloody_Birds\obj\Debug\app.exe
 C:\Users\immy\Desktop\Bloody_Birds\obj\Debug\app.pdb
 C:\Users\immy\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\textures\Black Bird %28Wings Up%29.png
 C:\Users\immy\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\textures\Brown Bird %28Wings Down%29.png
-C:\Users\immy\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\textures\Brown Bird %28Wings Up%29.png
-C:\Users\immy\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\textures\Dead Bird.png
 C:\Users\immy\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\textures\Menu %28Button%29.png
 C:\Users\immy\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\textures\Next Level %28Button%29.png
 C:\Users\immy\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\textures\Retry Level %28Button%29.png
 C:\Users\immy\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\textures\Background.png
 C:\Users\immy\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\textures\Black Bird %28Wings Up%29.png
 C:\Users\immy\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\textures\Brown Bird %28Wings Down%29.png
-C:\Users\immy\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\textures\Brown Bird %28Wings Up%29.png
-C:\Users\immy\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\textures\Dead Bird.png
 C:\Users\immy\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\textures\Menu %28Button%29.png
 C:\Users\immy\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\textures\Next Level %28Button%29.png
 C:\Users\immy\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\textures\Retry Level %28Button%29.png
@@ -112,3 +108,7 @@ C:\Users\immy\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\t
 C:\Users\immy\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\textures\score.png
 C:\Users\immy\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\textures\bird.png
 C:\Users\immy\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\textures\bird.png
+C:\Users\immy\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\textures\DeadBird.png
+C:\Users\immy\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\textures\DeadBird.png
+C:\Users\immy\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\textures\BrownBirdWingsUp.png
+C:\Users\immy\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\textures\BrownBirdWingsUp.png

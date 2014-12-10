@@ -26,8 +26,8 @@ namespace Bloody_Birds
 			i = 1;			
 			enemy = new SpriteUV[2];
 			
-			text = new TextureInfo("/Application/textures/bird.png");
-			text2 = new TextureInfo("/Application/textures/bird.png");
+			text = new TextureInfo("/Application/textures/DeadBird.png");
+			text2 = new TextureInfo("/Application/textures/BrownBirdWingsUp.png");
 			
 			//texture for sun
 			enemy[0] = new SpriteUV(text);
@@ -59,7 +59,7 @@ namespace Bloody_Birds
 		{
 			var touches = Touch.GetData(0);
 			Rectangle touchRect = new Rectangle();
-			//Console.WriteLine(sun[0].Position);
+			//Console.WriteLine(enemy[0].Position);
 			for(int i = 0; i< touches.Count; i++)
 			{
 				screenX = (touches[i].X + 0.5f) * AppMain.ScreenWidth;
@@ -84,8 +84,7 @@ namespace Bloody_Birds
 				resetEnemy();
 			}
 			
-			enemy[0].Position = new Vector2(enemy[0].Position.X - 2.0f, enemy[0].Position.Y); //setting new position for enemy
-			
+			enemy[0].Position = new Vector2(enemy[0].Position.X - 5.0f, enemy[0].Position.Y); //setting new position for enemy
 			if(enemy[0].Position.X < -width) // if enemy is less than width of screen call method
 			{
 			 resetEnemy();

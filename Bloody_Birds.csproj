@@ -56,8 +56,6 @@
   <ItemGroup>
     <Content Include="textures\Black Bird %28Wings Up%29.png" />
     <Content Include="textures\Brown Bird %28Wings Down%29.png" />
-    <Content Include="textures\Brown Bird %28Wings Up%29.png" />
-    <Content Include="textures\Dead Bird.png" />
     <Content Include="textures\Menu %28Button%29.png" />
     <Content Include="textures\Next Level %28Button%29.png" />
     <Content Include="textures\Retry Level %28Button%29.png" />
@@ -66,5 +64,7 @@
     <Content Include="textures\ScoreBoard.png" />
     <Content Include="textures\score.png" />
     <Content Include="textures\bird.png" />
+    <Content Include="textures\DeadBird.png" />
+    <Content Include="textures\BrownBirdWingsUp.png" />
   </ItemGroup>
 </Project>
