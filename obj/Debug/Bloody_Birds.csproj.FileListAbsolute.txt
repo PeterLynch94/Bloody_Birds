@@ -96,7 +96,6 @@ C:\Users\immy\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\t
 C:\Users\immy\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\textures\Menu %28Button%29.png
 C:\Users\immy\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\textures\Next Level %28Button%29.png
 C:\Users\immy\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\textures\Retry Level %28Button%29.png
-C:\Users\immy\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\textures\Success %28Score Board%29.png
 C:\Users\immy\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\textures\Background.png
 C:\Users\immy\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\textures\Black Bird %28Wings Down%29.png
 C:\Users\immy\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\textures\Black Bird %28Wings Up%29.png
@@ -106,7 +105,8 @@ C:\Users\immy\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\tex
 C:\Users\immy\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\textures\Menu %28Button%29.png
 C:\Users\immy\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\textures\Next Level %28Button%29.png
 C:\Users\immy\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\textures\Retry Level %28Button%29.png
-C:\Users\immy\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\textures\Success %28Score Board%29.png
 C:\Users\immy\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\textures\Background.png
 C:\Users\immy\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\textures\GameMenu.png
 C:\Users\immy\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\textures\GameMenu.png
+C:\Users\immy\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\textures\ScoreBoard.png
+C:\Users\immy\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\textures\ScoreBoard.png

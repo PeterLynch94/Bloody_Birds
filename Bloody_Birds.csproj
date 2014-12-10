@@ -61,8 +61,8 @@
     <Content Include="textures\Menu %28Button%29.png" />
     <Content Include="textures\Next Level %28Button%29.png" />
     <Content Include="textures\Retry Level %28Button%29.png" />
-    <Content Include="textures\Success %28Score Board%29.png" />
     <Content Include="textures\Background.png" />
     <Content Include="textures\GameMenu.png" />
+    <Content Include="textures\ScoreBoard.png" />
   </ItemGroup>
 </Project>

@@ -93,6 +93,8 @@ namespace Bloody_Birds
 			// Create game scren
 			CreateGameScene();	 
 			
+			GameOverScene();
+			
 			//Set the ui scene.
 			uiScene = new Sce.PlayStation.HighLevel.UI.Scene();
 			
@@ -114,6 +116,9 @@ namespace Bloody_Birds
 			
 			//Run the scene.
 			Director.Instance.RunWithScene(startScene, true);
+		 
+			
+			
 		}
 
 		public static void Update ()
@@ -181,10 +186,13 @@ namespace Bloody_Birds
 			//gs.SCORE = post defeat/victory score screen
 			if(gameState == gS.SCORE)
 			{
+			
 				titleLabel.Text = "Score Screen";
+			 
 				if(touch.Count > 0 && timer <= 0)
 				{
 					gameState = gS.HSCORE;
+						
 					timer = 50;
 					scoreLabel.Visible = false;
 					for(int i = 0; i < scoreSlotCount - 1; i++)
@@ -193,6 +201,7 @@ namespace Bloody_Birds
 						scoreBoardLabels[i].Text = scoreBoard[i].ToString ();
 					}
 					save (scorePath, scoreBoard);
+					Director.Instance.ReplaceScene(gameOverScene); //draw score
 				}
 				
 			}
@@ -203,6 +212,7 @@ namespace Bloody_Birds
 				titleLabel.Text = "High Score Screen";
 				if(touch.Count > 0 && timer <= 0)
 				{
+						Director.Instance.PushScene(startScene); //replace for start screen
 					gameState = gS.START;
 					timer = 50;
 					score = 0;
@@ -217,6 +227,7 @@ namespace Bloody_Birds
 		
 		public static void scoreCalc()
 		{
+				
 			for(int i = 0; i < scoreSlotCount - 1; i++)
 			{
 				int temp;
@@ -326,12 +337,26 @@ namespace Bloody_Birds
 		{
 			startScene = new Sce.PlayStation.HighLevel.GameEngine2D.Scene();
 			startScene.Camera.SetViewFromViewport();
+			
 			TextureInfo startSceneBackground = new TextureInfo("/Application/textures/GameMenu.png");
 			SpriteUV sprBackground = new SpriteUV(startSceneBackground);
 			sprBackground.Quad.S = startSceneBackground.TextureSizef;
 			
 			sprBackground.Position = new Vector2(0,0);
 			startScene.AddChild(sprBackground);
+		}
+		
+		private static void GameOverScene()
+		{
+			gameOverScene = new Sce.PlayStation.HighLevel.GameEngine2D.Scene();
+			gameOverScene.Camera.SetViewFromViewport();
+			
+			TextureInfo g_score = new TextureInfo("/Application/textures/ScoreBoard.png");
+			SpriteUV sprSCore = new SpriteUV(g_score);
+			sprSCore.Quad.S = g_score.TextureSizef;
+			
+			sprSCore.Position = new Vector2(180,150);
+			gameOverScene.AddChild(sprSCore);
 		}
 	}
 }
