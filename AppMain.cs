@@ -87,19 +87,11 @@ namespace Bloody_Birds
 			Director.Initialize ();
 			UISystem.Initialize(Director.Instance.GL.Context);
 			
-			// Start screen
-			startScene = new Sce.PlayStation.HighLevel.GameEngine2D.Scene();
-			startScene.Camera.SetViewFromViewport();
-			TextureInfo startSceneBackground = new TextureInfo("/Application/textures/GameMenu.png");
-			SpriteUV sprBackground = new SpriteUV(startSceneBackground);
-			sprBackground.Quad.S = startSceneBackground.TextureSizef;
 			
-			sprBackground.Position = new Vector2(0,0);
-			startScene.AddChild(sprBackground);
-			
+			CreateStartGameScene();
 			
 			// Create game scren
-			CreateGameScene();	
+			CreateGameScene();	 
 			
 			//Set the ui scene.
 			uiScene = new Sce.PlayStation.HighLevel.UI.Scene();
@@ -328,6 +320,18 @@ namespace Bloody_Birds
 			background.Position = new Vector2(0, 0);
 			
 			gameScene.AddChild(background);	
+		}
+		
+		private static void CreateStartGameScene()
+		{
+			startScene = new Sce.PlayStation.HighLevel.GameEngine2D.Scene();
+			startScene.Camera.SetViewFromViewport();
+			TextureInfo startSceneBackground = new TextureInfo("/Application/textures/GameMenu.png");
+			SpriteUV sprBackground = new SpriteUV(startSceneBackground);
+			sprBackground.Quad.S = startSceneBackground.TextureSizef;
+			
+			sprBackground.Position = new Vector2(0,0);
+			startScene.AddChild(sprBackground);
 		}
 	}
 }
