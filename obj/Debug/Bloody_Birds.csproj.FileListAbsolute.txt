@@ -110,3 +110,5 @@ C:\Users\immy\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\t
 C:\Users\immy\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\textures\GameMenu.png
 C:\Users\immy\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\textures\ScoreBoard.png
 C:\Users\immy\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\textures\ScoreBoard.png
+C:\Users\immy\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\textures\score.png
+C:\Users\immy\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\textures\score.png

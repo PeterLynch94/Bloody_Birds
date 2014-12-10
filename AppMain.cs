@@ -34,7 +34,7 @@ namespace Bloody_Birds
 {
 	public class AppMain
 	{
-		private static Sce.PlayStation.HighLevel.GameEngine2D.Scene 	gameScene, startScene, gameOverScene;
+		private static Sce.PlayStation.HighLevel.GameEngine2D.Scene 	gameScene, startScene, scoreScene, gameOverScene;
 		private static Sce.PlayStation.HighLevel.UI.Scene 				uiScene;
 		private static Sce.PlayStation.HighLevel.UI.Label				scoreLabel;
 		private static Sce.PlayStation.HighLevel.UI.Label				titleLabel;
@@ -92,6 +92,8 @@ namespace Bloody_Birds
 			
 			// Create game scren
 			CreateGameScene();	 
+			
+			ScoreScene();
 			
 			GameOverScene();
 			
@@ -160,7 +162,7 @@ namespace Bloody_Birds
 					//Director.Instance.PopScene();
 					
 					Director.Instance.ReplaceScene(gameScene);
-					
+						 
 					gameState = gS.GAME;
 					timer = 10;
 					scoreLabel.Visible = true;
@@ -186,11 +188,12 @@ namespace Bloody_Birds
 			//gs.SCORE = post defeat/victory score screen
 			if(gameState == gS.SCORE)
 			{
-			
+		
 				titleLabel.Text = "Score Screen";
-			 
+			
 				if(touch.Count > 0 && timer <= 0)
 				{
+				
 					gameState = gS.HSCORE;
 						
 					timer = 50;
@@ -202,6 +205,7 @@ namespace Bloody_Birds
 					}
 					save (scorePath, scoreBoard);
 					Director.Instance.ReplaceScene(gameOverScene); //draw score
+				
 				}
 				
 			}
@@ -212,6 +216,7 @@ namespace Bloody_Birds
 				titleLabel.Text = "High Score Screen";
 				if(touch.Count > 0 && timer <= 0)
 				{
+						
 						Director.Instance.PushScene(startScene); //replace for start screen
 					gameState = gS.START;
 					timer = 50;
@@ -227,7 +232,7 @@ namespace Bloody_Birds
 		
 		public static void scoreCalc()
 		{
-				
+					
 			for(int i = 0; i < scoreSlotCount - 1; i++)
 			{
 				int temp;
@@ -344,6 +349,19 @@ namespace Bloody_Birds
 			
 			sprBackground.Position = new Vector2(0,0);
 			startScene.AddChild(sprBackground);
+		}
+		
+		private static void ScoreScene()
+		{
+			scoreScene = new Sce.PlayStation.HighLevel.GameEngine2D.Scene();
+			scoreScene.Camera.SetViewFromViewport();
+			
+			TextureInfo scor = new TextureInfo("/Application/textures/Score.png");
+			SpriteUV scoreImage = new SpriteUV(scor);
+			scoreImage.Quad.S = scor.TextureSizef;
+			
+			scoreImage.Position = new Vector2(0,0);
+			scoreScene.AddChild(scoreImage);
 		}
 		
 		private static void GameOverScene()

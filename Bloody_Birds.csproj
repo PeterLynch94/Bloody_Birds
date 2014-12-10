@@ -64,5 +64,6 @@
     <Content Include="textures\Background.png" />
     <Content Include="textures\GameMenu.png" />
     <Content Include="textures\ScoreBoard.png" />
+    <Content Include="textures\score.png" />
   </ItemGroup>
 </Project>
