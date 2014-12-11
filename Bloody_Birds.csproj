@@ -39,7 +39,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppMain.cs" />
-    <Compile Include="enemy.cs" />
+    <Compile Include="bird.cs" />
   </ItemGroup>
   <ItemGroup>
     <ShaderProgram Include="shaders\Simple.fcg" />
