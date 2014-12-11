@@ -41,6 +41,7 @@
     <Compile Include="AppMain.cs" />
     <Compile Include="Bird.cs" />
     <Compile Include="Enemy.cs" />
+    <Compile Include="DeadlyBird.cs" />
   </ItemGroup>
   <ItemGroup>
     <ShaderProgram Include="shaders\Simple.fcg" />

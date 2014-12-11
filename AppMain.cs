@@ -50,7 +50,8 @@ namespace Bloody_Birds
 		private static int[] 				scoreBoard;
 		private static int 					scoreSlotCount; // comment
 		private static Bird					bird;
-		private static Enemy				enemyBird;
+		private static DeadlyBird			enemy;
+		private static List<DeadlyBird> 	enemyList;
 		
 		private static string				scorePath;			
 		
@@ -111,9 +112,14 @@ namespace Bloody_Birds
 			//create the bird
 			bird = new Bird(gameScene);
 			
+			enemyList = new List<DeadlyBird>();
 			//create the enemy
-			enemyBird = new Enemy(gameScene);
-			
+			for(int i = 0; i < 10; i++)
+			{
+				enemy = new DeadlyBird(gameScene);
+				enemyList.Add(enemy);
+			}
+	
 			//Set the ui scene.
 			uiScene = new Sce.PlayStation.HighLevel.UI.Scene();
 			
@@ -166,9 +172,11 @@ namespace Bloody_Birds
 			bird.Update(0.0f);
 			
 			 
-			
-			//enemyBird.Update(0.0f, bird.Sprite);
-			enemyBird.Update(0.0f, bird.Sprite);
+			foreach(DeadlyBird deadlyBird in enemyList)
+			{
+				deadlyBird.Update(0.0f, bird.Sprite);
+			}
+
 			
 			
 			//Set scoreleval to the current value of Score
@@ -207,7 +215,7 @@ namespace Bloody_Birds
 				score++;
 				if(touch.Count > 0 && timer <= 0)
 				{
-					gameState = gS.SCORE;
+					//gameState = gS.SCORE;
 					timer = 50;
 					scoreCalc();
 					

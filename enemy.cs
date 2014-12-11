@@ -16,35 +16,38 @@ namespace Bloody_Birds
 		private TextureInfo	text2;
 		private float		width;
 	 	private bool hasCollected  	= false;
-		private int 		i;
+		private int 		i, enemys_count;
 		private Scene theScene;
 		private bool isAlive = true;
-		float screenX, screenY;
+		private float screenX, screenY;
 		public Enemy (Scene scene)
 		{
+			enemys_count = 10;
 			this.theScene = scene;
 			i = 1;			
-			enemy = new SpriteUV[2];
+			enemy = new SpriteUV[enemys_count];
 			
 			text = new TextureInfo("/Application/textures/DeadBird.png");
 			text2 = new TextureInfo("/Application/textures/BrownBirdWingsUp.png");
 			
-			//texture for sun
-			enemy[0] = new SpriteUV(text);
-			enemy[0].Quad.S = text.TextureSizef;
+			Random r = new Random();
 			
-			//position sun
-			enemy[0].Position = new Vector2(200.0f, 150.0f);
+			for(int j = 0; j < enemys_count; j++)
+			{
+				enemy[j] = new SpriteUV(text);
+				enemy[j].Quad.S = text.TextureSizef;
+				
+				int xPos = r.Next(100, 400);
+				int yPos = r.Next(50, 480);
+				
+				enemy[j].Position = new Vector2(xPos, yPos);
+			}
 			
-			enemy[1] = new SpriteUV(text2);
-			enemy[1].Quad.S = text2.TextureSizef;
-			
-			enemy[1].Position = new Vector2(300.0f, 150.0f);
 			
 			//Add to the current scene.
 			foreach(SpriteUV sprite in enemy)
-			scene.AddChild(sprite);
-			//scene.AddChild(sun[0]);
+				scene.AddChild(sprite);
+
 			 
 			
 			 
@@ -68,7 +71,7 @@ namespace Bloody_Birds
 				touchRect.Y = screenY;
 				touchRect.Width = 1;
 				touchRect.Height = 1;
-				//Console.WriteLine(screenX + ":" +screenY);
+				Console.WriteLine(screenX + ":" +screenY);
 				
 			}
 			
@@ -84,7 +87,7 @@ namespace Bloody_Birds
 				resetEnemy();
 			}
 			
-			enemy[0].Position = new Vector2(enemy[0].Position.X - 5.0f, enemy[0].Position.Y); //setting new position for enemy
+		//	enemy[0].Position = new Vector2(enemy[0].Position.X - 5.0f, enemy[0].Position.Y); //setting new position for enemy
 			if(enemy[0].Position.X < -width) // if enemy is less than width of screen call method
 			{
 			 resetEnemy();
