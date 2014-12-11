@@ -39,15 +39,15 @@ namespace Bloody_Birds
 		private static Sce.PlayStation.HighLevel.UI.Label				scoreLabel;
 		private static Sce.PlayStation.HighLevel.UI.Label				titleLabel;
 		private static Sce.PlayStation.HighLevel.UI.Label[]				scoreBoardLabels;
-		private static Sce.PlayStation.HighLevel.UI.Button				testA, testB;
+		private static Sce.PlayStation.HighLevel.UI.Button				optionB, mainGameB, startB, scoreB, highScoreB, musicB, soundB;
 		
 		
-		private static bool 				quitGame, touched;
+		private static bool 				quitGame, touched, musicToggle, soundToggle;
 		private static int 					score, timer;
 		private static string				scoreString;
 		private static gS					gameState;
 		private static int[] 				scoreBoard;
-		private static int 					scoreSlotCount;
+		private static int 					scoreSlotCount, screenW, screenH;
 		
 		private static string				scorePath;
 		
@@ -80,6 +80,8 @@ namespace Bloody_Birds
 			//initialise score values
 			score = 0;
 			timer = 0;
+			soundToggle = true;
+			musicToggle = true;
 			scoreSlotCount = 6;
 			scoreBoard = new int[scoreSlotCount];
 			scoreString = score.ToString(scoreString);
@@ -100,6 +102,8 @@ namespace Bloody_Birds
 			Panel panel  = new Panel();
 			panel.Width  = Director.Instance.GL.Context.GetViewport().Width;
 			panel.Height = Director.Instance.GL.Context.GetViewport().Height;
+			screenH = (int)panel.Height;
+			screenW = (int)panel.Width;
 			
 			//Setup Labels
 			scoreLabel = makeLabel(scoreLabel, panel, (panel.Width/2) - 300, (panel.Height/2) + 2);
@@ -115,34 +119,119 @@ namespace Bloody_Birds
 			
 			
 			//Setup buttons
-			testB = makeButton (testB, panel, panel.Width/2, panel.Height/2);
-			testB.Name = "TestB";
-			testB.Text = "Test Button";
-			//testB.SetPosition(panel.Width/2, panel.Height/2);
-			testB.SetPosition((panel.Width/2) - testB.Width/2, panel.Height/2);
-			testB.Height = 100;
-			testB.Width = 300;
-			testB.ButtonAction += (sender, e) => 
-			{
-					score++;
-            };
-			panel.AddChildLast(testB);
+			mainGameB = makeButton (mainGameB, panel, panel.Width/2, panel.Height/2);
+			mainGameB.Name = "ButtonB";
+			mainGameB.Text = "Start Game";
 			
-			testA = makeButton (testA, panel, panel.Width/2 + 300, panel.Height/2 - 200);
-			testA.Name = "TestA";
-			testA.ButtonAction += (sender, e) => 
-			{
-				gameState = gS.GAME;
-				timer = 10;
-				scoreLabel.Visible = true;
-				titleLabel.Text = "Main Game Screen";
-			};
-			panel.AddChildLast(testA);
+			scoreB = makeButton (scoreB, panel, screenW/2, screenH/2);
+			scoreB.Name = "Score";
+			scoreB.Text = "Go to Score";
+			scoreB.Visible = false;
+			
+			highScoreB = makeButton (highScoreB, panel, screenW/2, screenH/2);
+			highScoreB.Name = "High Score";
+			highScoreB.Text = "Go to High Score";
+			highScoreB.Visible = false;
+			
+			startB = makeButton (startB, panel, screenW/2, screenH/2);
+			startB.Name = "Start";
+			startB.Text = "Go to Start";
+			startB.Visible = false;
+			
+			musicB = makeButton (musicB, panel, screenW/2, screenH/2);
+			musicB.Name = "Start";
+			musicB.Text = "Music ON";
+			musicB.Visible = false;
+			
+			soundB = makeButton (soundB, panel, panel.Width/2 + 300, panel.Height/2 - 200);
+			soundB.Name = "TestA";
+			soundB.Text = "Sound ON";
+			soundB.Visible = false;
+			soundB.SetPosition(50, 50);
+			
+			optionB = makeButton (optionB, panel, panel.Width/2 + 300, panel.Height/2 - 200);
+			optionB.Name = "TestA";
+			optionB.Text = "Options";
+			
+
+			
+			panel.AddChildLast(mainGameB);
+			
+
+			
+			panel.AddChildLast(optionB);
 			
 			
 			uiScene.RootWidget.AddChildLast(panel);
 			
 			UISystem.SetScene(uiScene);
+			
+			//Set what buttons do
+			
+			initButtonActions();
+			mainGameB.ButtonAction += (sender, e) => 
+			{
+					gameState = gS.GAME;
+					startB.Visible = false;
+					optionB.Visible = false;
+					mainGameB.Visible = false;
+					scoreB.Visible = true;
+            };
+			
+			scoreB.ButtonAction += (sender, e) => 
+			{
+					gameState = gS.SCORE;
+					scoreB.Visible = false;
+					highScoreB.Visible = true;
+					
+            };
+			
+			optionB.ButtonAction += (sender, e) => 
+			{
+				gameState = gS.OPTION;
+				mainGameB.Visible = false;
+				optionB.Visible = false;
+				startB.Visible = true;
+				musicB.Visible = true;
+				soundB.Visible = true;
+				if(musicToggle)
+				{
+					musicB.Text = "Music ON";
+				} else {
+					musicB.Text = "Music OFF";
+				}
+				if(soundToggle)
+				{
+					soundB.Text = "Sound ON";
+				} else {
+					soundB.Text = "Sound OFF";
+				}
+			};
+			
+			highScoreB.ButtonAction += (sender, e) => 
+			{
+				gameState = gS.HSCORE;
+				scoreLabel.Visible = false;
+				for(int i = 0; i < scoreSlotCount - 1; i++)
+				{
+					scoreBoardLabels[i].Visible = true;
+					scoreBoardLabels[i].Text = scoreBoard[i].ToString ();
+				}
+				save (scorePath, scoreBoard);
+				titleLabel.Text = "High Score Screen";
+			};
+			
+			musicB.ButtonAction += (sender, e) => 
+			{
+				musicToggle = !musicToggle;
+				if(musicToggle)
+				{
+					musicB.Text = "Music ON";
+				} else {
+					musicB.Text = "Music OFF";
+				}
+			};
+			
 			
 			//Run the scene.
 			Director.Instance.RunWithScene(gameScene, true);
@@ -181,51 +270,23 @@ namespace Bloody_Birds
 			if(gameState == gS.START)
 			{
 				titleLabel.Text = "Start Screen";
-				testA.Text = "Go to Game";
-				testB.Visible = false;
-				testA.Visible = true;
 				
-				testA.ButtonAction += (sender, e) => 
-				{
-					gameState = gS.GAME;
-					timer = 10;
-					scoreLabel.Visible = true;
-					titleLabel.Text = "Main Game Screen";
-					testB.Visible = true;
-				};
 				
+				
+
 				
 			}
 			
 			//gs.GAME = main game screen
 			if(gameState == gS.GAME)
 			{
-				testA.ButtonAction += (sender, e) => 
-				{
-					gameState = gS.SCORE;
-					timer = 50;
-					scoreCalc();
-					titleLabel.Text = "Score Screen";
-					testB.Visible = false;
-				};
+				score++;
 			}
 			
 			//gs.SCORE = post defeat/victory score screen
 			if(gameState == gS.SCORE)
 			{
-				testA.ButtonAction += (sender, e) => 
-				{
-					gameState = gS.HSCORE;
-					timer = 50;
-					scoreLabel.Visible = false;
-					for(int i = 0; i < scoreSlotCount - 1; i++)
-					{
-						scoreBoardLabels[i].Visible = true;
-						scoreBoardLabels[i].Text = scoreBoard[i].ToString ();
-					}
-					save (scorePath, scoreBoard);
-					titleLabel.Text = "High Score Screen";
-				};
+
 				
 			}
 			
@@ -233,10 +294,9 @@ namespace Bloody_Birds
 			if(gameState == gS.HSCORE)
 			{
 				
-				testA.ButtonAction += (sender, e) => 
+				optionB.ButtonAction += (sender, e) => 
 				{
 					gameState = gS.START;
-					timer = 50;
 					score = 0;
 					for(int i = 0; i < scoreSlotCount - 1; i++)
 					{
@@ -247,7 +307,7 @@ namespace Bloody_Birds
 			
 			if(gameState == gS.OPTION)
 			{
-				
+				titleLabel.Text = "Options";
 			}
 				
 		}
@@ -356,5 +416,10 @@ namespace Bloody_Birds
                 }
             }
          }
+		
+		public static void initButtonActions()
+		{
+			
+		}
 	}
 }

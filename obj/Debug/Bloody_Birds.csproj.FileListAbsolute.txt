@@ -143,7 +143,6 @@ C:\Users\at-st_000\Desktop\bbtest\Bloody_Birds\bin\Debug\Bloody_Birds-signed\App
 C:\Users\at-st_000\Desktop\bbtest\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\Sce.PlayStation.HighLevel.UI.dll
 C:\Users\at-st_000\Desktop\bbtest\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\app.exe.mdb
 C:\Users\at-st_000\Desktop\bbtest\Bloody_Birds\bin\Debug\Bloody_Birds.psdp
-C:\Users\at-st_000\Desktop\bbtest\Bloody_Birds\obj\Debug\Bloody_Birds.csprojResolveAssemblyReference.cache
 C:\Users\at-st_000\Desktop\bbtest\Bloody_Birds\obj\Debug\shaders\shaders\Simple.cgx
 C:\Users\at-st_000\Desktop\bbtest\Bloody_Birds\obj\Debug\convertedpdb\app.exe.mdb
 C:\Users\at-st_000\Desktop\bbtest\Bloody_Birds\obj\Debug\app.exe
