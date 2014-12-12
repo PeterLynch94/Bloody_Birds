@@ -53,10 +53,10 @@
     <Folder Include="music\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="music\Crunk.mp3" />
     <Content Include="music\menu_button_beep.mp3" />
     <Content Include="music\normal_shotgun_-Soundeffects-1522730314.wav" />
-    <Content Include="music\Smothered Nature.mp3" />
-    <Content Include="music\menu.mp3" />
+    <Content Include="music\levelmusic.mp3" />
+    <Content Include="music\scoremusic.mp3" />
+    <Content Include="music\menumusic.mp3" />
   </ItemGroup>
 </Project>

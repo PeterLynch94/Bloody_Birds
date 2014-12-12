@@ -42,7 +42,7 @@ namespace Bloody_Birds
 		private static Sce.PlayStation.HighLevel.UI.Label[]				scoreBoardLabels;
 		private static Sce.PlayStation.HighLevel.UI.Button				optionB, mainGameB, startB, scoreB, highScoreB, musicB, soundB;
 		private static BgmPlayer										music;
-		private static Bgm												tune;
+		private static Bgm[]											tunes;
 		
 		private static bool 				quitGame, touched, musicToggle, soundToggle;
 		private static int 					score, timer;
@@ -90,11 +90,18 @@ namespace Bloody_Birds
 			scorePath = "/Documents/HighScores.txt";
 			load (scorePath, scoreBoard);
 			
-			tune = new Bgm("/Application/Music/menu.mp3");
-			music = tune.CreatePlayer();
+			tunes = new Bgm[3];
+			
+			tunes[0] = new Bgm("/Application/Music/menumusic.mp3");
+			tunes[1] = new Bgm("/Application/Music/levelmusic.mp3");
+			tunes[2] = new Bgm("/Application/Music/scoremusic.mp3");
+			music = tunes[0].CreatePlayer();
 			music.Volume = 0.05f;
 			music.Loop = true;
 			music.Play ();
+			
+			
+			
 			
 			
 			Director.Initialize ();
@@ -363,6 +370,17 @@ namespace Bloody_Birds
 		{
 			startB.ButtonAction += (sender, e) => 
 			{
+					if(gameState != gS.OPTION)
+					{
+						if(musicToggle)
+						{
+							music.Dispose();
+							music = tunes[0].CreatePlayer();
+							music.Loop = true;
+							music.Play ();
+							music.Volume = 0.05f;
+						}
+					}
 					gameState = gS.START;
 					musicB.Visible = false;
 					soundB.Visible = false;
@@ -376,6 +394,8 @@ namespace Bloody_Birds
 					{
 						scoreBoardLabels[i].Visible = false;
 					}
+					
+					
             };
 			
 			mainGameB.ButtonAction += (sender, e) => 
@@ -387,6 +407,14 @@ namespace Bloody_Birds
 					scoreB.Visible = true;
 					titleLabel.Text = "Main Game Screen";
 					scoreLabel.Visible = true;
+					if(musicToggle)
+					{
+						music.Dispose();
+						music = tunes[1].CreatePlayer();
+						music.Loop = true;
+						music.Play ();
+						music.Volume = 0.05f;
+					}
 					
             };
 			
@@ -398,6 +426,10 @@ namespace Bloody_Birds
 					titleLabel.Text = "Score Screen";
 					scoreCalc();
 					save (scorePath, scoreBoard);
+					if(musicToggle)
+					{
+						music.Dispose();
+					}
             };
 			
 			highScoreB.ButtonAction += (sender, e) => 
@@ -413,6 +445,14 @@ namespace Bloody_Birds
 				titleLabel.Text = "High Score Screen";
 				highScoreB.Visible = false;
 				startB.Visible = true;
+				if(musicToggle)
+					{
+						music.Dispose();
+						music = tunes[2].CreatePlayer();
+						music.Loop = true;
+						music.Play ();
+						music.Volume = 0.05f;
+					}
 			};
 			
 			musicB.ButtonAction += (sender, e) => 
