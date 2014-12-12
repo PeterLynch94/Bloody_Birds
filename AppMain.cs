@@ -10,6 +10,7 @@ using Sce.PlayStation.Core.Input;
 using Sce.PlayStation.HighLevel.GameEngine2D;
 using Sce.PlayStation.HighLevel.GameEngine2D.Base;
 using Sce.PlayStation.HighLevel.UI;
+using Sce.PlayStation.Core.Audio;
 
 //enum to control game state
 enum gS
@@ -40,7 +41,8 @@ namespace Bloody_Birds
 		private static Sce.PlayStation.HighLevel.UI.Label				titleLabel;
 		private static Sce.PlayStation.HighLevel.UI.Label[]				scoreBoardLabels;
 		private static Sce.PlayStation.HighLevel.UI.Button				optionB, mainGameB, startB, scoreB, highScoreB, musicB, soundB;
-		
+		private static BgmPlayer										music;
+		private static Bgm												tune;
 		
 		private static bool 				quitGame, touched, musicToggle, soundToggle;
 		private static int 					score, timer;
@@ -87,6 +89,13 @@ namespace Bloody_Birds
 			scoreString = score.ToString(scoreString);
 			scorePath = "/Documents/HighScores.txt";
 			load (scorePath, scoreBoard);
+			
+			tune = new Bgm("/Application/Music/menu.mp3");
+			music = tune.CreatePlayer();
+			music.Volume = 0.05f;
+			music.Loop = true;
+			music.Play ();
+			
 			
 			Director.Initialize ();
 			UISystem.Initialize(Director.Instance.GL.Context);
@@ -412,8 +421,10 @@ namespace Bloody_Birds
 				if(musicToggle)
 				{
 					musicB.Text = "Music ON";
+					music.Play();
 				} else {
 					musicB.Text = "Music OFF";
+					music.Stop();
 				}
 			};
 		

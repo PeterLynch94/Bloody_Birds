@@ -118,3 +118,13 @@ C:\Users\at-st_000\Desktop\Bloody Birds\github copy\Bloody_Birds\obj\Debug\shade
 C:\Users\at-st_000\Desktop\Bloody Birds\github copy\Bloody_Birds\obj\Debug\convertedpdb\app.exe.mdb
 C:\Users\at-st_000\Desktop\Bloody Birds\github copy\Bloody_Birds\obj\Debug\app.exe
 C:\Users\at-st_000\Desktop\Bloody Birds\github copy\Bloody_Birds\obj\Debug\app.pdb
+C:\Users\at-st_000\Desktop\Bloody Birds\github copy\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\music\Crunk.mp3
+C:\Users\at-st_000\Desktop\Bloody Birds\github copy\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\music\menu_button_beep.mp3
+C:\Users\at-st_000\Desktop\Bloody Birds\github copy\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\music\normal_shotgun_-Soundeffects-1522730314.wav
+C:\Users\at-st_000\Desktop\Bloody Birds\github copy\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\music\Smothered Nature.mp3
+C:\Users\at-st_000\Desktop\Bloody Birds\github copy\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\music\menu.mp3
+C:\Users\at-st_000\Desktop\Bloody Birds\github copy\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\music\Crunk.mp3
+C:\Users\at-st_000\Desktop\Bloody Birds\github copy\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\music\menu_button_beep.mp3
+C:\Users\at-st_000\Desktop\Bloody Birds\github copy\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\music\normal_shotgun_-Soundeffects-1522730314.wav
+C:\Users\at-st_000\Desktop\Bloody Birds\github copy\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\music\Smothered Nature.mp3
+C:\Users\at-st_000\Desktop\Bloody Birds\github copy\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\music\menu.mp3
