@@ -49,18 +49,9 @@ namespace Bloody_Birds
 		private static gS					gameState;
 		private static int[] 				scoreBoard;
 		private static int 					scoreSlotCount; // comment
-
+		private static Bird					bird;
 		private static DeadlyBird			enemy;
 		private static List<DeadlyBird> 	enemyList;
-
-		public static List<DeadlyBird> EnemyList {
-			get {
-				return  enemyList;
-			}
-			set {
-				enemyList = value;
-			}
-		}		
 		
 		private static string				scorePath;			
 		
@@ -83,7 +74,7 @@ namespace Bloody_Birds
 			}
 			//Game ended, time to clean up
 			//Clean up after ourselves.
-		
+			bird.Dispose();
 			 
 			
 			Director.Terminate ();
@@ -102,7 +93,7 @@ namespace Bloody_Birds
 			scoreBoard = new int[scoreSlotCount];
 			scoreString = score.ToString(scoreString);
 			scorePath = "/Documents/HighScores.txt";
-			//load (scorePath, scoreBoard);
+			load (scorePath, scoreBoard);
 			
 			Director.Initialize ();
 			UISystem.Initialize(Director.Instance.GL.Context);
@@ -119,7 +110,7 @@ namespace Bloody_Birds
 			
 			GameOverScene();
 			//create the bird
-
+			bird = new Bird(gameScene);
 			
 			enemyList = new List<DeadlyBird>();
 			//create the enemy
@@ -129,9 +120,6 @@ namespace Bloody_Birds
 				enemyList.Add(enemy);
 			}
 	
-			//enemy = new DeadlyBird(gameScene);
-			//enemyList.Add(enemy);
-			
 			//Set the ui scene.
 			uiScene = new Sce.PlayStation.HighLevel.UI.Scene();
 			
@@ -177,15 +165,19 @@ namespace Bloody_Birds
 			// check to see if screen has been touched
 			var touch = Touch.GetData (0);
 			//If tapped, inform the bird.
+			if(touch.Count > 0)
+				bird.Tapped();
 			
+			//Update the bird.
+			bird.Update(0.0f);
 			
-			for(int i = 0; i < enemyList.Count; i++)
-			{
-				enemyList[i].Update(0.0f);	
-			}
-			
-
 			 
+			foreach(DeadlyBird deadlyBird in enemyList)
+			{
+				deadlyBird.Update(0.0f, bird.Sprite);
+			}
+
+			
 			
 			//Set scoreleval to the current value of Score
 			scoreLabel.Text = score.ToString ();
@@ -227,11 +219,6 @@ namespace Bloody_Birds
 					timer = 50;
 					scoreCalc();
 					
-				}
-				
-				if(enemyList.Count == 0)
-				{
-					Director.Instance.ReplaceScene(gameOverScene);	//birds are killed call gameover scene 
 				}
 			}
 			var GamePadData = GamePad.GetData(0);
@@ -407,7 +394,7 @@ namespace Bloody_Birds
 			scoreScene = new Sce.PlayStation.HighLevel.GameEngine2D.Scene();
 			scoreScene.Camera.SetViewFromViewport();
 			
-			TextureInfo scor = new TextureInfo("/Application/textures/score.png");
+			TextureInfo scor = new TextureInfo("/Application/textures/Score.png");
 			SpriteUV scoreImage = new SpriteUV(scor);
 			scoreImage.Quad.S = scor.TextureSizef;
 			
