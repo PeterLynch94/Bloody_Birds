@@ -1,16 +1,14 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="DeadlyBird.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="AppMain.cs">
     <Files>
-      <File FileName="AppMain.cs" Line="146" Column="4" />
+      <File FileName="AppMain.cs" Line="276" Column="4" />
       <File FileName="Bird.cs" Line="29" Column="4" />
-      <File FileName="DeadlyBird.cs" Line="38" Column="1" />
+      <File FileName="DeadlyBird.cs" Line="39" Column="26" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <Breakpoint file="C:\Users\immy\Desktop\Bloody_Birds\DeadlyBird.cs" line="38" />
-    </BreakpointStore>
+    <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>
