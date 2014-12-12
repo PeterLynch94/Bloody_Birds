@@ -41,8 +41,10 @@ namespace Bloody_Birds
 		private static Sce.PlayStation.HighLevel.UI.Label				titleLabel;
 		private static Sce.PlayStation.HighLevel.UI.Label[]				scoreBoardLabels;
 		private static Sce.PlayStation.HighLevel.UI.Button				optionB, mainGameB, startB, scoreB, highScoreB, musicB, soundB;
-		private static BgmPlayer										music;
+		private static BgmPlayer										musicPlayer;
+		private static SoundPlayer[]									soundPlayer;
 		private static Bgm[]											tunes;
+		private static Sound[]											sounds;
 		
 		private static bool 				quitGame, touched, musicToggle, soundToggle;
 		private static int 					score, timer;
@@ -95,12 +97,21 @@ namespace Bloody_Birds
 			tunes[0] = new Bgm("/Application/Music/menumusic.mp3");
 			tunes[1] = new Bgm("/Application/Music/levelmusic.mp3");
 			tunes[2] = new Bgm("/Application/Music/scoremusic.mp3");
-			music = tunes[0].CreatePlayer();
-			music.Volume = 0.05f;
-			music.Loop = true;
-			music.Play ();
+			musicPlayer = tunes[0].CreatePlayer();
+			musicPlayer.Volume = 0.05f;
+			musicPlayer.Loop = true;
+			musicPlayer.Play ();
+			
+			sounds = new Sound[2];
+			soundPlayer = new SoundPlayer[2];
 			
 			
+			sounds[0] = new Sound("/Application/Music/buttonbeep.wav");
+			sounds[1] = new Sound("/Application/Music/shoot.wav");
+			soundPlayer[0] = sounds[0].CreatePlayer();
+			soundPlayer[1] = sounds[1].CreatePlayer();
+			soundPlayer[0].Volume = 0.05f;
+			soundPlayer[1].Volume = 0.05f;
 			
 			
 			
@@ -370,70 +381,77 @@ namespace Bloody_Birds
 		{
 			startB.ButtonAction += (sender, e) => 
 			{
-					if(gameState != gS.OPTION)
+				if(soundToggle)
+				{
+					soundPlayer[0].Play();
+				}
+				if(gameState != gS.OPTION)
+				{
+					if(musicToggle)
 					{
-						if(musicToggle)
-						{
-							music.Dispose();
-							music = tunes[0].CreatePlayer();
-							music.Loop = true;
-							music.Play ();
-							music.Volume = 0.05f;
-						}
+						changeSong(tunes[0]);
 					}
-					gameState = gS.START;
-					musicB.Visible = false;
-					soundB.Visible = false;
-					startB.Visible = false;
-					mainGameB.Visible = true;
-					optionB.Visible = true;
-					titleLabel.Text = "Start Screen";
-					gameState = gS.START;
-					score = 0;
-					for(int i = 0; i < scoreSlotCount - 1; i++)
-					{
-						scoreBoardLabels[i].Visible = false;
-					}
-					
+				}
+				gameState = gS.START;
+				musicB.Visible = false;
+				soundB.Visible = false;
+				startB.Visible = false;
+				mainGameB.Visible = true;
+				optionB.Visible = true;
+				titleLabel.Text = "Start Screen";
+				score = 0;
+				for(int i = 0; i < scoreSlotCount - 1; i++)
+				{
+					scoreBoardLabels[i].Visible = false;
+				}
+				
 					
             };
 			
 			mainGameB.ButtonAction += (sender, e) => 
 			{
-					gameState = gS.GAME;
-					startB.Visible = false;
-					optionB.Visible = false;
-					mainGameB.Visible = false;
-					scoreB.Visible = true;
-					titleLabel.Text = "Main Game Screen";
-					scoreLabel.Visible = true;
-					if(musicToggle)
-					{
-						music.Dispose();
-						music = tunes[1].CreatePlayer();
-						music.Loop = true;
-						music.Play ();
-						music.Volume = 0.05f;
-					}
+				if(soundToggle)
+				{
+					soundPlayer[0].Play ();
+				}
+				gameState = gS.GAME;
+				startB.Visible = false;
+				optionB.Visible = false;
+				mainGameB.Visible = false;
+				scoreB.Visible = true;
+				titleLabel.Text = "Main Game Screen";
+				scoreLabel.Visible = true;
+				if(musicToggle)
+				{
+					changeSong (tunes[1]);
+				}
 					
             };
 			
 			scoreB.ButtonAction += (sender, e) => 
 			{
-					gameState = gS.SCORE;
-					scoreB.Visible = false;
-					highScoreB.Visible = true;
-					titleLabel.Text = "Score Screen";
-					scoreCalc();
-					save (scorePath, scoreBoard);
-					if(musicToggle)
-					{
-						music.Dispose();
-					}
+				if(soundToggle)
+				{
+					soundPlayer[0].Play ();
+				}
+				gameState = gS.SCORE;
+				scoreB.Visible = false;
+				highScoreB.Visible = true;
+				titleLabel.Text = "Score Screen";
+				scoreCalc();
+				save (scorePath, scoreBoard);
+				if(musicToggle)
+				{
+					musicPlayer.Dispose();
+				}
             };
 			
 			highScoreB.ButtonAction += (sender, e) => 
 			{
+				if(soundToggle)
+				{
+					soundPlayer[0].Play ();
+				}
 				gameState = gS.HSCORE;
 				scoreLabel.Visible = false;
 				for(int i = 0; i < scoreSlotCount - 1; i++)
@@ -447,11 +465,7 @@ namespace Bloody_Birds
 				startB.Visible = true;
 				if(musicToggle)
 					{
-						music.Dispose();
-						music = tunes[2].CreatePlayer();
-						music.Loop = true;
-						music.Play ();
-						music.Volume = 0.05f;
+						changeSong (tunes[2]);
 					}
 			};
 			
@@ -461,10 +475,18 @@ namespace Bloody_Birds
 				if(musicToggle)
 				{
 					musicB.Text = "Music ON";
-					music.Play();
+					musicPlayer.Play();
+					if(soundToggle)
+					{
+						soundPlayer[0].Play ();
+					}
 				} else {
 					musicB.Text = "Music OFF";
-					music.Stop();
+					musicPlayer.Stop();
+					if(soundToggle)
+					{
+						soundPlayer[0].Play ();
+					}
 				}
 			};
 		
@@ -474,6 +496,7 @@ namespace Bloody_Birds
 				if(soundToggle)
 				{
 					soundB.Text = "Sound ON";
+					soundPlayer[0].Play();
 				} else {
 					soundB.Text = "Sound OFF";
 				}
@@ -481,6 +504,10 @@ namespace Bloody_Birds
 			
 			optionB.ButtonAction += (sender, e) => 
 			{
+				if(soundToggle)
+				{
+					soundPlayer[0].Play ();
+				}
 				gameState = gS.OPTION;
 				mainGameB.Visible = false;
 				optionB.Visible = false;
@@ -500,6 +527,15 @@ namespace Bloody_Birds
 					soundB.Text = "Sound OFF";
 				}
 			};
+		}
+		
+		public static void changeSong(Bgm m)
+		{
+				musicPlayer.Dispose();
+				musicPlayer = m.CreatePlayer();
+				musicPlayer.Loop = true;
+				musicPlayer.Play ();
+				musicPlayer.Volume = 0.05f;
 		}
 	}
 }
