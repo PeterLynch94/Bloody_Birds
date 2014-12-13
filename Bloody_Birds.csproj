@@ -51,6 +51,8 @@
   <Import Project="$(MSBuildExtensionsPath)\Sce\Sce.Psm.CSharp.targets" />
   <ItemGroup>
     <Folder Include="music\" />
+    <Folder Include="music\New Folder\" />
+    <Folder Include="graphics\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="music\levelmusic.mp3" />
@@ -58,5 +60,6 @@
     <Content Include="music\menumusic.mp3" />
     <Content Include="music\shoot.wav" />
     <Content Include="music\buttonbeep.wav" />
+    <Content Include="graphics\enemy.png" />
   </ItemGroup>
 </Project>
