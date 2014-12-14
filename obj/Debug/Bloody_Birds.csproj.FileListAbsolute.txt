@@ -111,3 +111,109 @@ C:\Users\immy\Desktop\Bloody_Birds\obj\Debug\shaders\shaders\Simple.cgx
 C:\Users\immy\Desktop\Bloody_Birds\obj\Debug\convertedpdb\app.exe.mdb
 C:\Users\immy\Desktop\Bloody_Birds\obj\Debug\app.exe
 C:\Users\immy\Desktop\Bloody_Birds\obj\Debug\app.pdb
+E:\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\app.info
+E:\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\shaders\Simple.cgx
+E:\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\app.exe
+E:\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\Sce.PlayStation.HighLevel.GameEngine2D.dll
+E:\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\System.Json.dll
+E:\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\System.Xml.dll
+E:\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\System.Runtime.Serialization.dll
+E:\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\System.Core.dll
+E:\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\System.ServiceModel.Web.dll
+E:\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\System.ServiceModel.dll
+E:\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\Sce.PlayStation.HighLevel.UI.dll
+E:\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\app.exe.mdb
+E:\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\textures\Black Bird %28Wings Up%29.png
+E:\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\textures\Brown Bird %28Wings Down%29.png
+E:\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\textures\Menu %28Button%29.png
+E:\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\textures\Next Level %28Button%29.png
+E:\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\textures\Retry Level %28Button%29.png
+E:\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\textures\Background.png
+E:\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\textures\GameMenu.png
+E:\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\textures\ScoreBoard.png
+E:\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\textures\score.png
+E:\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\textures\bird.png
+E:\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\textures\DeadBird.png
+E:\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\textures\BrownBirdWingsUp.png
+E:\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\app.info
+E:\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\shaders\Simple.cgx
+E:\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\app.exe
+E:\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\Sce.PlayStation.HighLevel.GameEngine2D.dll
+E:\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\System.Json.dll
+E:\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\System.Xml.dll
+E:\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\System.Runtime.Serialization.dll
+E:\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\System.Core.dll
+E:\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\System.ServiceModel.Web.dll
+E:\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\System.ServiceModel.dll
+E:\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\Sce.PlayStation.HighLevel.UI.dll
+E:\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\app.exe.mdb
+E:\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\textures\Black Bird %28Wings Up%29.png
+E:\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\textures\Brown Bird %28Wings Down%29.png
+E:\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\textures\Menu %28Button%29.png
+E:\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\textures\Next Level %28Button%29.png
+E:\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\textures\Retry Level %28Button%29.png
+E:\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\textures\Background.png
+E:\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\textures\GameMenu.png
+E:\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\textures\ScoreBoard.png
+E:\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\textures\score.png
+E:\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\textures\bird.png
+E:\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\textures\DeadBird.png
+E:\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\textures\BrownBirdWingsUp.png
+E:\Bloody_Birds\bin\Debug\Bloody_Birds.psdp
+E:\Bloody_Birds\obj\Debug\shaders\shaders\Simple.cgx
+E:\Bloody_Birds\obj\Debug\convertedpdb\app.exe.mdb
+E:\Bloody_Birds\obj\Debug\app.exe
+E:\Bloody_Birds\obj\Debug\app.pdb
+C:\Users\cam2\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\app.info
+C:\Users\cam2\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\shaders\Simple.cgx
+C:\Users\cam2\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\app.exe
+C:\Users\cam2\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\Sce.PlayStation.HighLevel.GameEngine2D.dll
+C:\Users\cam2\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\System.Json.dll
+C:\Users\cam2\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\System.Xml.dll
+C:\Users\cam2\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\System.Runtime.Serialization.dll
+C:\Users\cam2\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\System.Core.dll
+C:\Users\cam2\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\System.ServiceModel.Web.dll
+C:\Users\cam2\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\System.ServiceModel.dll
+C:\Users\cam2\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\Sce.PlayStation.HighLevel.UI.dll
+C:\Users\cam2\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\app.exe.mdb
+C:\Users\cam2\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\textures\Black Bird %28Wings Up%29.png
+C:\Users\cam2\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\textures\Brown Bird %28Wings Down%29.png
+C:\Users\cam2\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\textures\Menu %28Button%29.png
+C:\Users\cam2\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\textures\Next Level %28Button%29.png
+C:\Users\cam2\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\textures\Retry Level %28Button%29.png
+C:\Users\cam2\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\textures\Background.png
+C:\Users\cam2\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\textures\GameMenu.png
+C:\Users\cam2\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\textures\ScoreBoard.png
+C:\Users\cam2\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\textures\score.png
+C:\Users\cam2\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\textures\bird.png
+C:\Users\cam2\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\textures\DeadBird.png
+C:\Users\cam2\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-unsigned\Application\textures\BrownBirdWingsUp.png
+C:\Users\cam2\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\app.info
+C:\Users\cam2\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\shaders\Simple.cgx
+C:\Users\cam2\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\app.exe
+C:\Users\cam2\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\Sce.PlayStation.HighLevel.GameEngine2D.dll
+C:\Users\cam2\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\System.Json.dll
+C:\Users\cam2\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\System.Xml.dll
+C:\Users\cam2\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\System.Runtime.Serialization.dll
+C:\Users\cam2\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\System.Core.dll
+C:\Users\cam2\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\System.ServiceModel.Web.dll
+C:\Users\cam2\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\System.ServiceModel.dll
+C:\Users\cam2\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\Sce.PlayStation.HighLevel.UI.dll
+C:\Users\cam2\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\app.exe.mdb
+C:\Users\cam2\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\textures\Black Bird %28Wings Up%29.png
+C:\Users\cam2\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\textures\Brown Bird %28Wings Down%29.png
+C:\Users\cam2\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\textures\Menu %28Button%29.png
+C:\Users\cam2\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\textures\Next Level %28Button%29.png
+C:\Users\cam2\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\textures\Retry Level %28Button%29.png
+C:\Users\cam2\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\textures\Background.png
+C:\Users\cam2\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\textures\GameMenu.png
+C:\Users\cam2\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\textures\ScoreBoard.png
+C:\Users\cam2\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\textures\score.png
+C:\Users\cam2\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\textures\bird.png
+C:\Users\cam2\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\textures\DeadBird.png
+C:\Users\cam2\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds-signed\Application\textures\BrownBirdWingsUp.png
+C:\Users\cam2\Desktop\Bloody_Birds\bin\Debug\Bloody_Birds.psdp
+C:\Users\cam2\Desktop\Bloody_Birds\obj\Debug\shaders\shaders\Simple.cgx
+C:\Users\cam2\Desktop\Bloody_Birds\obj\Debug\convertedpdb\app.exe.mdb
+C:\Users\cam2\Desktop\Bloody_Birds\obj\Debug\app.exe
+C:\Users\cam2\Desktop\Bloody_Birds\obj\Debug\app.pdb

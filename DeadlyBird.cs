@@ -25,24 +25,30 @@ namespace Bloody_Birds
 			this.theScene = scene;
 			
 			enemy = new SpriteUV();
-			text = new TextureInfo("/Application/textures/DeadBird.png");
+			text = new TextureInfo("/Application/textures/bird.png");
 			
 			
 			
 			enemy = new SpriteUV(text);
 			enemy.Quad.S = text.TextureSizef;
 			
-			int xPos = r.Next(0, 70);
+			int xPos = r.Next(0, 900); //moving birds off screen
 			int yPos = r.Next(50, 480);
-			//speed = r.Next(1, 10);
+			speed = r.Next(1, 3);
 			enemy.Position = new Vector2(xPos, yPos);
 			scene.AddChild(enemy);
 		}
 		
-		public void Update(float deltaTime, SpriteUV sprite)
+		public void Update(float deltaTime)
 		{
-			enemy.Position = new Vector2(enemy.Position.X + 0.5f, enemy.Position.Y); //setting new position for enemy
-			
+			if(enemy.Position.X < 920)
+			{
+			enemy.Position = new Vector2(enemy.Position.X + speed, enemy.Position.Y); //setting new position for enemy
+			}
+			else
+			{
+					enemy.Position = new Vector2(r.Next(0, 100), r.Next(0, 520)); //re-popping birds		
+			}
 			
 			var touches = Touch.GetData(0);
 			Rectangle touchRect = new Rectangle();
@@ -66,38 +72,20 @@ namespace Bloody_Birds
 			sunRect.Width = enemy.CalcSizeInPixels().X;
 			sunRect.Height = enemy.CalcSizeInPixels().Y;		
 			
-			if((touchRect.X > sunRect.X) && (touchRect.X < sunRect.X + sunRect.Width) )
+			if((touchRect.X > sunRect.X) && (touchRect.X < sunRect.X + sunRect.Width)|| (touchRect.Y > sunRect.Y) && (touchRect.Y < sunRect.Y + sunRect.Height))
 			{
-				resetEnemy();
+				 
+				removeBird();  
+ 
 			}
 			
-		//	
-			if(enemy.Position.X < -width) // if enemy is less than width of screen call method
-			{
-			 resetEnemy();
-			}
-			else if(sprite.Position.X + sprite.CalcSizeInPixels().X > enemy.Position.X
-			        && enemy.Position.X + enemy.CalcSizeInPixels().X > sprite.Position.X //collision detection
-			        && !hasCollected)	 // no way for it to be collected
-			{
-				hasCollected = true; // change when it has collected
-				i++;
-				Console.WriteLine(i);
-				resetEnemy();
-				 
-			}
-			if(!isAlive)
-			{
-				resetEnemy();
-				
-			}
 						
 		}
 		
-		public void resetEnemy()
+		public void removeBird()
 		{
-			enemy.Position =  new Vector2(Director.Instance.GL.Context.GetViewport().Width + 20.0f,  250.0f); //set new position of enemy in middle of screen
-			hasCollected = false; // reset enemy
+			AppMain.EnemyList.Remove(this);
+			theScene.RemoveChild(enemy, true);
 		}
 	}
 }
