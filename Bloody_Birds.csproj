@@ -51,8 +51,6 @@
   <Import Project="$(MSBuildExtensionsPath)\Sce\Sce.Psm.CSharp.targets" />
   <ItemGroup>
     <Folder Include="music\" />
-    <Folder Include="music\New Folder\" />
-    <Folder Include="graphics\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="music\levelmusic.mp3" />
@@ -60,31 +58,5 @@
     <Content Include="music\menumusic.mp3" />
     <Content Include="music\shoot.wav" />
     <Content Include="music\buttonbeep.wav" />
-    <Content Include="graphics\Background.png" />
-    <Content Include="graphics\Brown_Bird_Wings_Down.png" />
-    <Content Include="graphics\Brown_Bird_Wings_Up.png" />
-    <Content Include="graphics\Menu_Button.png" />
-    <Content Include="graphics\Next_Level_Button.png" />
-    <Content Include="graphics\Retry_Level_Button.png" />
-    <Content Include="graphics\score.png" />
-    <Content Include="graphics\Game_Menu.png" />
-    <Content Include="graphics\level10.png" />
-    <Content Include="graphics\level9.png" />
-    <Content Include="graphics\level8.png" />
-    <Content Include="graphics\level7.png" />
-    <Content Include="graphics\level6.png" />
-    <Content Include="graphics\level5.png" />
-    <Content Include="graphics\level4.png" />
-    <Content Include="graphics\level3.png" />
-    <Content Include="graphics\level2.png" />
-    <Content Include="graphics\level1.png" />
-    <Content Include="graphics\music_off.png" />
-    <Content Include="graphics\music_on.png" />
-    <Content Include="graphics\sound_on.png" />
-    <Content Include="graphics\sound_off.png" />
-    <Content Include="graphics\highScore.png" />
-    <Content Include="graphics\infiniteMode.png" />
-    <Content Include="graphics\bad_end.png" />
-    <Content Include="graphics\scoreBack.png" />
   </ItemGroup>
 </Project>
