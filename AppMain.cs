@@ -28,7 +28,13 @@ enum gS
 	HSCORE = 3,
 	
 	//Options Screen
-	OPTION = 4
+	OPTION = 4,
+	
+	//Level Select Screen
+	LEVELS = 5,
+	
+	//Game Over Screen
+	GAMEOVER = 6
 }
 
 namespace Bloody_Birds
@@ -38,22 +44,31 @@ namespace Bloody_Birds
 		private static Sce.PlayStation.HighLevel.GameEngine2D.Scene 	gameScene;
 		private static Sce.PlayStation.HighLevel.UI.Scene 				uiScene;
 		private static Sce.PlayStation.HighLevel.UI.Label				scoreLabel;
-		private static Sce.PlayStation.HighLevel.UI.Label				titleLabel;
 		private static Sce.PlayStation.HighLevel.UI.Label[]				scoreBoardLabels;
-		private static Sce.PlayStation.HighLevel.UI.Button				optionB, mainGameB, startB, scoreB, highScoreB, musicB, soundB;
+		private static Sce.PlayStation.HighLevel.UI.Button				optionB, mainGameB, startB, scoreB, highScoreB, musicB, soundB, levelB, infiniteB, retryB, exitB;
+		private static Sce.PlayStation.HighLevel.UI.Button[]			levels;
+		private static TextureInfo										menuTX, menuTX2;
+		private static SpriteUV											menuBG, menuBG2;
+		private static ImageBox											music1, music2, sound1, sound2, backToMenu, retryLevel, nextLevel, highScoreBox, 
+																		infiniteBox;
+		private static ImageBox[]										levelIcons;
+		
 		private static BgmPlayer										musicPlayer;
 		private static SoundPlayer[]									soundPlayer;
 		private static Bgm[]											tunes;
 		private static Sound[]											sounds;
+		private static List<enemy> 										enemyList;
 		
-		private static bool 				quitGame, touched, musicToggle, soundToggle;
-		private static int 					score, timer;
+		private static bool 				quitGame, musicToggle, soundToggle, infiniteMode;
+		private static int 					score;
 		private static string				scoreString;
 		private static gS					gameState;
 		private static int[] 				scoreBoard;
-		private static int 					scoreSlotCount, screenW, screenH;
+		private static int 					scoreSlotCount, screenW, screenH, levelCount, enemyCount, lUnlockCount, currentL;
+		private static float				volume;
+		private static System.Random 		rand;
 		
-		private static string				scorePath;
+		private static string				scorePath, levelUnlockPath;
 		
 		public static void Main (string[] args)
 		{
@@ -74,6 +89,12 @@ namespace Bloody_Birds
 				Director.Instance.PostSwap();
 			}
 			//Game ended, time to clean up
+			tunes[0].Dispose();
+			tunes[1].Dispose();
+			tunes[2].Dispose();
+			sounds[0].Dispose();
+			sounds[1].Dispose();
+			Director.Terminate();
 		}
 		
 		public static void Initialize ()
@@ -83,35 +104,47 @@ namespace Bloody_Birds
 			
 			//initialise score values
 			score = 0;
-			timer = 0;
+			levelCount = 10;
+			lUnlockCount = 1;
+			currentL = 1;
+			enemyCount = 10;
+			enemyList = new List<enemy>();
 			soundToggle = true;
 			musicToggle = true;
+			volume = 0.20f;
+			
+			
 			scoreSlotCount = 6;
 			scoreBoard = new int[scoreSlotCount];
 			scoreString = score.ToString(scoreString);
-			scorePath = "/Documents/HighScores.txt";
-			load (scorePath, scoreBoard);
+
+			levels = new Button[levelCount];
+			//toucher = new Input2.TouchData();
+			rand = new Random();
 			
 			tunes = new Bgm[3];
 			
-			tunes[0] = new Bgm("/Application/Music/menumusic.mp3");
-			tunes[1] = new Bgm("/Application/Music/levelmusic.mp3");
-			tunes[2] = new Bgm("/Application/Music/scoremusic.mp3");
+			tunes[0] = new Bgm("Application/music/menumusic.mp3");
+			tunes[1] = new Bgm("Application/music/levelmusic.mp3");
+			tunes[2] = new Bgm("Application/music/scoremusic.mp3");
 			musicPlayer = tunes[0].CreatePlayer();
-			musicPlayer.Volume = 0.05f;
+			musicPlayer.Volume = volume;
 			musicPlayer.Loop = true;
-			musicPlayer.Play ();
-			
+			if(musicToggle)
+			{
+				musicPlayer.Play();
+			}
 			sounds = new Sound[2];
 			soundPlayer = new SoundPlayer[2];
 			
 			
-			sounds[0] = new Sound("/Application/Music/buttonbeep.wav");
-			sounds[1] = new Sound("/Application/Music/shoot.wav");
+			sounds[0] = new Sound("Application/music/buttonbeep.wav");
+			sounds[1] = new Sound("Application/music/shoot.wav");
 			soundPlayer[0] = sounds[0].CreatePlayer();
 			soundPlayer[1] = sounds[1].CreatePlayer();
-			soundPlayer[0].Volume = 0.05f;
-			soundPlayer[1].Volume = 0.05f;
+			soundPlayer[0].Volume = volume;
+			soundPlayer[1].Volume = volume;
+			
 			
 			
 			
@@ -136,62 +169,39 @@ namespace Bloody_Birds
 			scoreLabel = makeLabel(scoreLabel, panel, (screenW/2) - 300, (screenH/2) + 2);
 			scoreLabel.Visible = false;
 			scoreLabel.SetPosition(screenW/2 - scoreLabel.Width/2, screenH/3 - scoreLabel.Height/2);
-			titleLabel = makeLabel(titleLabel, panel, panel.Width/2, 50);
-			titleLabel.SetPosition(screenW/2 - titleLabel.Width/2, 50);
-			titleLabel.Text = "Start Screen";
 			scoreBoardLabels = new Sce.PlayStation.HighLevel.UI.Label[scoreSlotCount];
 			for(int i = 0; i < scoreSlotCount - 1; i++)
 			{
 				scoreBoardLabels[i] = makeLabel(scoreBoardLabels[i], panel, 50, i*100);
-				scoreBoardLabels[i].SetPosition(screenW/1.5f - scoreBoardLabels[i].Width/2, 50 + i*100);
+				scoreBoardLabels[i].SetPosition(screenW/2 - scoreBoardLabels[i].Width/2, 50 + i*70);
 			}
 			
 			
 			
-			
+			setupMenuGraphics ();
 			//Set buttons up
-			mainGameB = makeButton (mainGameB, panel, screenW/2, screenH/2);
-			mainGameB.Name = "ButtonB";
-			mainGameB.Text = "Start Game";
-			mainGameB.SetPosition(screenW/2 - mainGameB.Width/2, screenH/2 - mainGameB.Height/2);
+			initImageBoxes(panel);
+			initButtons(panel);
 			
-			scoreB = makeButton (scoreB, panel, screenW/2, screenH/2);
-			scoreB.Name = "Score";
-			scoreB.Text = "Go to Score";
-			scoreB.Visible = false;
-			scoreB.SetPosition(screenW/2 - mainGameB.Width/2, screenH/2 - mainGameB.Height/2);
-			
-			highScoreB = makeButton (highScoreB, panel, screenW/2, screenH/2);
-			highScoreB.Name = "High Score";
-			highScoreB.Text = "Go to High Score";
-			highScoreB.Visible = false;
-			highScoreB.SetPosition(screenW/2 - mainGameB.Width/2, screenH/2 - mainGameB.Height/2);
-			
-			startB = makeButton (startB, panel, screenW/2, screenH/2);
-			startB.Name = "Start";
-			startB.Text = "Go to Start";
-			startB.Visible = false;
-			startB.SetPosition(screenW/2 - mainGameB.Width/2, screenH/2 - mainGameB.Height/2);
-			
-			musicB = makeButton (musicB, panel, 750, 50);
-			musicB.Name = "Start";
-			musicB.Text = "Music ON";
-			musicB.Visible = false;
-			musicB.SetPosition(screenW - (mainGameB.Width + 100), screenH/2 - mainGameB.Height/2);
-			
-			soundB = makeButton (soundB, panel, 50, 50);
-			soundB.Name = "TestA";
-			soundB.Text = "Sound ON";
-			soundB.Visible = false;
-			soundB.SetPosition(100, screenH/2 - mainGameB.Height/2);
-			
-			optionB = makeButton (optionB, panel, screenW + 300, 50);
-			optionB.Name = "TestA";
-			optionB.Text = "Options";
-			optionB.SetPosition(screenW - (optionB.Width + 50), 50);
 
-			
-			
+			scorePath = "/Documents/highscores.dat";
+			levelUnlockPath = "/Documents/levelsunlocked.dat";
+			if(false == System.IO.File.Exists (@scorePath))
+			{
+				scoreBoard[0] = 100;
+				scoreBoard[1] = 50;
+				scoreBoard[2] = 30;
+				scoreBoard[3] = 20;
+				scoreBoard[4] = 10;
+				save (scorePath, true);
+			}
+			if(false == System.IO.File.Exists (@levelUnlockPath))
+			{
+				lUnlockCount = 1;
+				save (levelUnlockPath, false);
+			}
+			load (scorePath, true);
+			load (levelUnlockPath, false);
 			
 			uiScene.RootWidget.AddChildLast(panel);
 			
@@ -199,75 +209,256 @@ namespace Bloody_Birds
 			
 			//Set what the buttons do when they are pressed in this function
 			initButtonActions(panel);
-			
-			
+
 			//Run the scene.
 			Director.Instance.RunWithScene(gameScene, true);
 		}
-
+		
+		public static void initImageBoxes(Panel panel)
+		{
+			levelIcons = new ImageBox[10];
+			music1 = makeImageAsset(panel, "Application/graphics/music_on.png");
+			music2 = makeImageAsset(panel, "Application/graphics/music_off.png");
+			sound1 = makeImageAsset(panel, "Application/graphics/sound_on.png");
+			sound2 = makeImageAsset(panel, "Application/graphics/sound_off.png");
+			retryLevel = makeImageAsset(panel, "Application/graphics/Retry_Level_Button.png");
+			nextLevel = makeImageAsset(panel, "Application/graphics/Next_Level_Button.png");
+			backToMenu = makeImageAsset(panel, "Application/graphics/Menu_Button.png");
+			highScoreBox = makeImageAsset(panel, "Application/graphics/highScore.png");
+			infiniteBox = makeImageAsset (panel, "Application/graphics/infiniteMode.png");
+			for(int i = 0; i < 10; i++)
+			{
+				string path = "Application/graphics/level" + ((i+1).ToString()) + ".png";
+				levelIcons[i] = makeImageAsset(panel, path);
+				levelIcons[i].Visible = false;
+			}
+		}
+		
+		public static ImageBox makeImageAsset(Panel panel, string path)
+		{
+			ImageAsset IA = new ImageAsset(path);
+			ImageBox IB = new ImageBox();
+			IB.Image = IA;
+			IB.Visible = true;
+			IB.Height = IB.Image.Height;
+			IB.Width = IB.Image.Width;
+			IB.SetPosition(50,50);
+			panel.AddChildLast(IB);
+			IB.Visible = false;
+			return IB;
+			
+		}
+		
+		public static void setupMenuGraphics()
+		{
+			gameScene.RemoveAllChildren(true);
+			menuTX = new TextureInfo("Application/graphics/Game_Menu.png");
+			menuBG = new SpriteUV(menuTX);
+			menuBG.Quad.S = menuTX.TextureSizef;
+			menuBG.Position = new Vector2(0, 0);
+			gameScene.AddChild(menuBG);
+		}
+		
+		public static void setupLevelGraphics(int p)
+		{
+			gameScene.RemoveAllChildren(true);
+			menuTX = new TextureInfo();
+			if(p == 0)
+			{
+				menuTX = new TextureInfo("Application/graphics/Background.png");
+			} else if (p == 1)
+			{
+				menuTX = new TextureInfo("Application/graphics/bad_end.png");	
+			} else if (p == 2)
+			{
+				menuTX = new TextureInfo("Application/graphics/scoreBack.png");
+			}
+			menuBG = new SpriteUV(menuTX);
+			menuBG.Quad.S = menuTX.TextureSizef;
+			menuBG.Position = new Vector2(0, 0);
+			gameScene.AddChild(menuBG);
+		}
+		
+		public static void setupScoreGraphics()
+		{
+			gameScene.RemoveAllChildren(true);
+			menuTX = new TextureInfo("Application/graphics/scoreBack.png");
+			menuBG = new SpriteUV(menuTX);
+			menuBG.Quad.S = menuTX.TextureSizef;
+			menuBG.Position = new Vector2(0, 0);
+			
+			menuTX2 = new TextureInfo("Application/graphics/score.png");
+			menuBG2 = new SpriteUV(menuTX2);
+			menuBG2.Quad.S = menuTX2.TextureSizef;
+			menuBG2.Position = new Vector2(screenW/2 - menuBG2.TextureInfo.Texture.Width/2, screenH/2 - menuBG2.TextureInfo.Texture.Height/2);
+			scoreLabel.SetPosition(menuBG2.Position.X +scoreLabel.Width, menuBG2.Position.Y + scoreLabel.Height*2);
+			gameScene.AddChild(menuBG);
+			gameScene.AddChild(menuBG2);
+		}
+		
 		public static void Update ()
 		{
-			
-			/*
-			 For now, the game is meant to advance from start > game > score > hscore > start
-			 then back through
-			 
-			 Once this works we have proof that this system for changing game screens/states works
-			 and I can then move on to menus and the scoring system in more detail
-			 
-			 
-			 13/11 Update
-			 The system detailed above works and a high score table has been implemented along with labels for each screen
-			 with its title on, these are not neccesarily final names/screens
-			 */
-			
-			// check to see if screen has been touched
-			
-
-
-			
+		
 			//Set scorelabel to the current value of Score
 			scoreLabel.Text = score.ToString ();
-			
-			//Timer controls how often a touch can be registered,
-			//a touch is recognised only when timer <= 0
-//			if(timer > 0)
-//			timer--;
-			
-			//gs.Start = Start screen
-			if(gameState == gS.START)
-			{
-				
 
+			if(lUnlockCount > 10)
+			{
+				lUnlockCount = 10;
 			}
-			
 			//gs.GAME = main game screen
 			if(gameState == gS.GAME)
 			{
-				score++;
-			}
-			
-			//gs.SCORE = post defeat/victory score screen
-			if(gameState == gS.SCORE)
-			{
+				var touchT = Touch.GetData(0).ToArray();
+				int touchX = -100;
+				int touchY = -100;
 
 				
-			}
-			
-			//gs.HSCORE = end of game score screen, loops back to start screen
-			if(gameState == gS.HSCORE)
-			{
-				
-				
-
-			}
-			
-			if(gameState == gS.OPTION)
-			{
-				
+				if(touchT.Length > 0 && touchT[0].Status == TouchStatus.Up)
+				{
+					touchX = (int)((touchT[0].X + 0.5f) * screenW);
+					touchY = screenH-(int)((touchT[0].Y + 0.5f) * screenH);
+				}
+				foreach(enemy e in enemyList)
+				{
+					e.Update(0.0f, rand);
+					if(touchX <= (e.getWidth() + e.getX()) && touchX >= e.getX() && touchY <= (e.getHeight() + e.getY())
+					   && touchY >= e.getY() && e.getDead() == false)
+					{
+						e.setDead(true);
+						if(soundToggle)
+						{
+							soundPlayer[1].Play ();
+						}
+						score++;
+					}
+					if(e.getX() < (0 - e.getWidth()) && infiniteMode == false)
+					{
+						gameState = gS.GAMEOVER;
+						score = 0;
+						killEnemies();
+						setupGameOver();
+						break;
+					} else if (e.getX() < (0 - e.getWidth()) && infiniteMode == true)
+					{
+						infiniteMode = false;
+						scoreCalc ();
+						save (scorePath, true);
+						scoreScreenSetup ();
+						killEnemies();
+						setupScoreGraphics();
+						break;
+					}
+				}
+				if(score >= enemyCount && infiniteMode == false)
+				{
+					scoreScreenSetup ();
+					killEnemies();
+					if(currentL >= lUnlockCount)
+					{
+						lUnlockCount++;
+						save (levelUnlockPath, false);
+					}
+					setupScoreGraphics();
+				}		
 			}
 				
 		}
+		
+		public static void setupGameOver()
+		{
+			if(musicToggle)
+			{
+				musicPlayer.Dispose();
+			}
+			setupLevelGraphics(1);
+			retryB.Visible = true;
+			retryLevel.Visible = true;
+			backToMenu.Visible = true;
+			startB.Visible = true;
+			startB.Width = backToMenu.Width;
+			startB.Height = backToMenu.Height;
+			startB.SetPosition(screenW/2 - startB.Width/2, screenH - startB.Height);
+			startB.Alpha = 0.0f;
+			backToMenu.SetPosition(startB.X, startB.Y);
+			backToMenu.Visible = true;
+			
+			
+			
+		}
+		
+		
+		
+		public static void levelSetup(int l)
+		{
+			if(l == 1)
+			{
+				makeEnemies(5);
+			} else if (l == 2)
+			{
+				makeEnemies(10);
+			} else if(l == 3)
+			{
+				makeEnemies(20);
+			} else if(l == 4)
+			{
+				makeEnemies(30);
+			} else if(l == 5)
+			{
+				makeEnemies(40);
+			} else if(l == 6)
+			{
+				makeEnemies(50);
+			} else if(l == 7)
+			{
+				makeEnemies(70);
+			} else if(l == 8)
+			{
+				makeEnemies(90);
+			} else if(l == 9)
+			{
+				makeEnemies(100);
+			}else if (l == 10)
+			{
+				makeEnemies(200);
+			}else if (l == 11)
+			{
+				makeEnemies(50);
+			}
+			
+		}
+		
+		
+		
+		public static void makeEnemies(int n)
+		{
+			enemyList = new List<enemy>();
+			enemyCount = n;
+			for(int i = 0; i <= enemyCount - 1; i++)
+			{
+				if(infiniteMode == false)
+				{
+					enemy en = new enemy(gameScene, rand, false);
+					enemyList.Add (en);
+				} else if (infiniteMode == true)
+				{
+					enemy en = new enemy(gameScene, rand, true);
+					enemyList.Add (en);
+				}
+				
+			}
+		}
+		
+		public static void killEnemies()
+		{
+			foreach(enemy e in enemyList)
+			{
+				e.Dispose();
+			}
+			gameScene.RemoveAllChildren(true);
+		}
+		
+		
 		
 		
 		//Iterates through each position on the score board checking to see if the new score is higher than the one stored there
@@ -307,74 +498,253 @@ namespace Bloody_Birds
 			return l;
 		}
 		
-		public static Sce.PlayStation.HighLevel.UI.Button makeButton(Sce.PlayStation.HighLevel.UI.Button b, Panel p, float w, float h)
+		public static Sce.PlayStation.HighLevel.UI.Button makeButton(Sce.PlayStation.HighLevel.UI.Button b, Panel p, int height, int width, float x, float y, String name, String text, bool vis)
 		{
 			b = new Sce.PlayStation.HighLevel.UI.Button();
 			b.HorizontalAlignment = HorizontalAlignment.Center;
 			b.VerticalAlignment = VerticalAlignment.Middle;
-			b.SetPosition(w, h);
-			b.Text = "unset";
-			b.Height = 50;
-			b.Width = 200;
+			b.SetPosition(x, y);
+			b.Name = name;
+			b.Text = text;
+			b.Visible = vis;
+			b.Height = height;
+			b.Width = width;
 			p.AddChildLast(b);
 			return b;
 		}
 		
-		public static void save(string path, int[] scoreB)
+		public static void save(string path, bool p)
 		{
-			byte[] result = new byte[scoreB.Length * sizeof(int)];
-			Buffer.BlockCopy(scoreB, 0, result, 0, result.Length);
-			Console.WriteLine("==SaveData()==");
-
-		    int bufferSize=sizeof(Int32)* (scoreSlotCount+1);
-		    byte[] buffer = new byte[bufferSize];
-		
-		    Int32 sum=0;
-		    for(int i=0; i<scoreSlotCount; ++i)
-		    {
-		        Console.WriteLine("ranking[i]="+scoreB[i]);
-		        Buffer.BlockCopy(scoreB, sizeof(Int32)*i, buffer, sizeof(Int32)*i, sizeof(Int32));
-		        sum+=scoreB[i];
-		    }
-		
-		    Int32 hash=sum.GetHashCode();
-		    Console.WriteLine("sum={0},hash={1}",sum,hash);
-		
-		    Buffer.BlockCopy(BitConverter.GetBytes(hash), 0, buffer, scoreSlotCount * sizeof(Int32), sizeof(Int32));
-		        	
+			byte[] result = new byte[0];
+			int bufferSize = 0;
+			byte[] buffer = new byte[0];
 			
-			using (System.IO.FileStream hStream = System.IO.File.Open(@path, FileMode.Create))
-		    {
-		        hStream.SetLength((int)bufferSize);
-		        hStream.Write(buffer, 0, (int)bufferSize);
-		        hStream.Close();
-		    }
+			if(p)
+			{
+				result = new byte[scoreBoard.Length * sizeof(int)];
+				Buffer.BlockCopy(scoreBoard, 0, result, 0, result.Length);
+	
+			     bufferSize=sizeof(Int32)* (scoreSlotCount+1);
+			     buffer = new byte[bufferSize];
 			
+			    Int32 sum=0;
+			    for(int i=0; i<scoreSlotCount; ++i)
+			    {
+			        Buffer.BlockCopy(scoreBoard, sizeof(Int32)*i, buffer, sizeof(Int32)*i, sizeof(Int32));
+			        sum+=scoreBoard[i];
+			    }
+			
+			    Int32 hash=sum.GetHashCode();
+			    Console.WriteLine("sum={0},hash={1}",sum,hash);
+			
+			    Buffer.BlockCopy(BitConverter.GetBytes(hash), 0, buffer, scoreSlotCount * sizeof(Int32), sizeof(Int32));
+			} else if (!p)
+			{
+				
+				int[] uCount = new int[1];
+				uCount[0] = lUnlockCount;
+				result = new byte[uCount.Length * sizeof(int)];
+				Buffer.BlockCopy(uCount, 0, result, 0, result.Length);
+	
+			     bufferSize=sizeof(Int32)* (1+1);
+			     buffer = new byte[bufferSize];
+			
+			    Int32 sum=0;
+			    for(int i=0; i<1; ++i)
+			    {
+			        Buffer.BlockCopy(uCount, sizeof(Int32)*i, buffer, sizeof(Int32)*i, sizeof(Int32));
+			        sum+=uCount[i];
+			    }
+			
+			    Int32 hash=sum.GetHashCode();
+			    Console.WriteLine("sum={0},hash={1}",sum,hash);
+			
+			    Buffer.BlockCopy(BitConverter.GetBytes(hash), 0, buffer, 1 * sizeof(Int32), sizeof(Int32));
+			}
+			if(true == System.IO.File.Exists(@path))
+			{
+				using (System.IO.FileStream hStream = System.IO.File.Open(@path, FileMode.Create))
+			    {
+			        hStream.SetLength((int)bufferSize);
+			        hStream.Write(buffer, 0, (int)bufferSize);
+			        hStream.Close();
+			    }
+			} else
+			{
+				using (System.IO.FileStream hStream = System.IO.File.Create(@path))
+			    {
+			        hStream.SetLength((int)bufferSize);
+			        hStream.Write(buffer, 0, (int)bufferSize);
+			        hStream.Close();
+			    }
+			}
 		}
 		
+		
+		public static void scoreScreenSetup()
+		{
+			gameState = gS.SCORE;
+			scoreB.Visible = false;
+			highScoreB.Visible = true;
+			highScoreBox.Visible = true;
+			if(musicToggle)
+			{
+				musicPlayer.Dispose();
+			}
+		}
+		
+		public static void gameScreenSetup(int l)
+		{
+			gameState = gS.GAME;
+			startB.Visible = false;
+			optionB.Visible = false;
+			mainGameB.Visible = false;
+			infiniteB.Visible = false;
+			infiniteBox.Visible = false;
+			exitB.Visible = false;
+			if(infiniteMode == true)
+			{
+				scoreLabel.Visible = true;
+			} else {
+				scoreLabel.Visible = false;
+			}
+			levelB.Visible = false;
+			if(musicToggle)
+			{
+				changeSong (tunes[1]);
+			}
+			for(int i = 0; i < levelCount; i++)
+			{
+				levels[i].Visible = false;
+				levelIcons[i].Visible = false;
+			}
+			backToMenu.Visible = false;
+			setupLevelGraphics(0);
+			levelSetup(l);
+		}
+		
+		public static void levelSelectSetup()
+		{
+			gameState = gS.LEVELS;
+			mainGameB.Visible = false;
+			optionB.Visible = false;
+			levelB.Visible = false;
+			for(int i = 0; i < lUnlockCount; i++)
+			{
+				levels[i].Visible = true;
+				levels[i].Alpha = 0.0f;
+				levelIcons[i].Visible = true;
+			}
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		//Function to load data/scores from file
-		public static void load(string path, int[] scoreB)
+		public static void load(string path, bool p)
 		{
 			
-
-            using (System.IO.FileStream hStream = System.IO.File.OpenRead(@path))
+			if(p)
 			{
-                if (hStream != null) 
+				if(true == System.IO.File.Exists(@path))
 				{
-                    long size = hStream.Length;
-	                byte[] buffer = new byte[size];
-	                hStream.Read(buffer, 0, (int)size);
-	
-	
-	                Int32 sum=0;
-	                for(int i=0; i<scoreSlotCount; ++i)
-	                {
-	                    Buffer.BlockCopy(buffer, sizeof(Int32)*i, scoreB, sizeof(Int32)*i,  sizeof(Int32));
-	                    Console.WriteLine("ranking[i]="+scoreB[i]);
-	                    sum+=scoreB[i];
-	                }
-                }
-            }
+		            using (System.IO.FileStream hStream = System.IO.File.OpenRead(@path))
+					{
+		                if (hStream != null) 
+						{
+		                    long size = hStream.Length;
+			                byte[] buffer = new byte[size];
+			                hStream.Read(buffer, 0, (int)size);
+			
+			
+			                Int32 sum=0;
+			                for(int i=0; i<scoreSlotCount; i++)
+			                {
+			                    Buffer.BlockCopy(buffer, sizeof(Int32)*i, scoreBoard, sizeof(Int32)*i,  sizeof(Int32));
+			                    Console.WriteLine("ranking[i]="+scoreBoard[i]);
+			                    sum+=scoreBoard[i];
+			                }
+		                }
+						hStream.Close();
+					}
+				} else 
+				{
+					using(System.IO.FileStream hStream = System.IO.File.Create (@path))
+					{
+						 if (hStream != null) 
+						{
+		                    long size = 28;
+			                byte[] buffer = new byte[size];
+			                hStream.Read(buffer, 0, (int)size);
+			
+			
+			                Int32 sum=0;
+			                for(int i=0; i<scoreSlotCount; ++i)
+			                {
+			                    Buffer.BlockCopy(buffer, sizeof(Int32)*i, scoreBoard, sizeof(Int32)*i,  sizeof(Int32));
+			                    Console.WriteLine("ranking[i]="+scoreBoard[i]);
+			                    sum+=scoreBoard[i];
+			                }
+						
+		                }
+						hStream.Close();
+					}
+				}
+			} else if (!p) {
+				int[] uCount = new int[1];
+				if(true == System.IO.File.Exists(@path))
+				{
+					using (System.IO.FileStream hStream = System.IO.File.OpenRead(@path))
+					{
+		                if (hStream != null) 
+						{
+		                    long size = hStream.Length;
+			                byte[] buffer = new byte[size];
+			                hStream.Read(buffer, 0, (int)size);
+			
+			
+			                Int32 sum=0;
+			                for(int i=0; i<1; ++i)
+			                {
+			                    Buffer.BlockCopy(buffer, sizeof(Int32)*i, uCount, sizeof(Int32)*i,  sizeof(Int32));
+			                    Console.WriteLine("levelsUnlocked="+uCount[i]);
+			                    sum+=uCount[i];
+			                }
+							lUnlockCount = uCount[0];
+		                }
+						hStream.Close();
+					}	
+				} else {
+					using(System.IO.FileStream hStream = System.IO.File.Create (@path))
+					{
+						 if (hStream != null) 
+						{
+		                    long size = 8;
+			                byte[] buffer = new byte[size];
+			                hStream.Read(buffer, 0, (int)size);
+			
+			
+			                Int32 sum=0;
+			                for(int i=0; i<1; ++i)
+			                {
+			                    Buffer.BlockCopy(buffer, sizeof(Int32)*i, uCount, sizeof(Int32)*i,  sizeof(Int32));
+			                    Console.WriteLine("levelsUnlocked="+uCount[i]);
+			                    sum+=uCount[i];
+			                }
+							lUnlockCount = uCount[0];
+		                }
+						hStream.Close();
+					}
+				}
+				
+				
+			}
          }
 		
 		public static void initButtonActions(Panel panel)
@@ -396,13 +766,30 @@ namespace Bloody_Birds
 				musicB.Visible = false;
 				soundB.Visible = false;
 				startB.Visible = false;
+				exitB.Visible = true;
+				infiniteB.Visible = true;
+				infiniteBox.Visible = true;
+				retryB.Visible = false;
+				retryLevel.Visible = false;
+				backToMenu.Visible = false;
+				sound1.Visible = false;
+				sound2.Visible = false;
+				music1.Visible = false;
+				music2.Visible = false;
+				setupMenuGraphics();
 				mainGameB.Visible = true;
 				optionB.Visible = true;
-				titleLabel.Text = "Start Screen";
+				levelB.Visible = true;
 				score = 0;
 				for(int i = 0; i < scoreSlotCount - 1; i++)
 				{
 					scoreBoardLabels[i].Visible = false;
+				}
+				
+				for(int i = 0; i < levelCount; i++)
+				{
+					levels[i].Visible = false;
+					levelIcons[i].Visible = false;
 				}
 				
 					
@@ -414,17 +801,35 @@ namespace Bloody_Birds
 				{
 					soundPlayer[0].Play ();
 				}
-				gameState = gS.GAME;
-				startB.Visible = false;
-				optionB.Visible = false;
-				mainGameB.Visible = false;
-				scoreB.Visible = true;
-				titleLabel.Text = "Main Game Screen";
-				scoreLabel.Visible = true;
-				if(musicToggle)
+				exitB.Visible = false;
+				gameScreenSetup(1);
+					
+            };
+			
+			retryB.ButtonAction += (sender, e) => 
+			{
+				if(soundToggle)
 				{
-					changeSong (tunes[1]);
+					soundPlayer[0].Play ();
 				}
+				
+				gameScreenSetup(currentL);
+				retryB.Visible = false;
+				retryLevel.Visible = false;
+					
+            };
+			
+			infiniteB.ButtonAction += (sender, e) => 
+			{
+				if(soundToggle)
+				{
+					soundPlayer[0].Play ();
+				}
+				scoreLabel.SetPosition(screenW/2 - scoreLabel.Width/2, screenH/3 - scoreLabel.Height/2);
+				currentL = 11;
+				infiniteMode = true;
+				gameScreenSetup(11);
+				
 					
             };
 			
@@ -437,9 +842,8 @@ namespace Bloody_Birds
 				gameState = gS.SCORE;
 				scoreB.Visible = false;
 				highScoreB.Visible = true;
-				titleLabel.Text = "Score Screen";
 				scoreCalc();
-				save (scorePath, scoreBoard);
+				save (scorePath, true);
 				if(musicToggle)
 				{
 					musicPlayer.Dispose();
@@ -459,14 +863,19 @@ namespace Bloody_Birds
 					scoreBoardLabels[i].Visible = true;
 					scoreBoardLabels[i].Text = scoreBoard[i].ToString ();
 				}
-
-				titleLabel.Text = "High Score Screen";
+				menuBG2.Visible = false;
 				highScoreB.Visible = false;
+				highScoreBox.Visible = false;
 				startB.Visible = true;
+				backToMenu.Visible = true;
+				backToMenu.SetPosition(screenW/2 - backToMenu.Width/2, screenH-backToMenu.Height);
+				startB.SetPosition(backToMenu.X, backToMenu.Y);
+				startB.Visible = true;
+				startB.Alpha = 0.0f;
 				if(musicToggle)
-					{
-						changeSong (tunes[2]);
-					}
+				{
+					changeSong (tunes[2]);
+				}
 			};
 			
 			musicB.ButtonAction += (sender, e) => 
@@ -480,6 +889,8 @@ namespace Bloody_Birds
 					{
 						soundPlayer[0].Play ();
 					}
+					music1.Visible = true;
+					music2.Visible = false;
 				} else {
 					musicB.Text = "Music OFF";
 					musicPlayer.Stop();
@@ -487,6 +898,8 @@ namespace Bloody_Birds
 					{
 						soundPlayer[0].Play ();
 					}
+					music1.Visible = false;
+					music2.Visible = true;
 				}
 			};
 		
@@ -496,9 +909,13 @@ namespace Bloody_Birds
 				if(soundToggle)
 				{
 					soundB.Text = "Sound ON";
+					sound1.Visible = true;
+					sound2.Visible = false;
 					soundPlayer[0].Play();
 				} else {
 					soundB.Text = "Sound OFF";
+					sound1.Visible = false;
+					sound2.Visible = true;
 				}
 			};
 			
@@ -511,22 +928,170 @@ namespace Bloody_Birds
 				gameState = gS.OPTION;
 				mainGameB.Visible = false;
 				optionB.Visible = false;
+				levelB.Visible = false;
 				startB.Visible = true;
 				musicB.Visible = true;
 				soundB.Visible = true;
+				infiniteBox.Visible = false;
+				infiniteB.Visible = false;
+				exitB.Visible = false;
+				setupLevelGraphics(0);
+				startB.Visible = true;
+				startB.Width = backToMenu.Width;
+				startB.Height = backToMenu.Height;
+				startB.SetPosition(screenW/2 - startB.Width/2, screenH/2 - startB.Height/2 + 25);
+				startB.Alpha = 0.0f;
+				backToMenu.SetPosition(startB.X, startB.Y);
+				backToMenu.Visible = true;
 				if(musicToggle)
 				{
 					musicB.Text = "Music ON";
+					music1.Visible = true;
 				} else {
 					musicB.Text = "Music OFF";
+					music2.Visible = true;
 				}
 				if(soundToggle)
 				{
 					soundB.Text = "Sound ON";
+					sound1.Visible = true;
 				} else {
 					soundB.Text = "Sound OFF";
+					sound2.Visible = true;
 				}
+				
 			};
+			
+			levelB.ButtonAction += (sender, e) => 
+			{
+				if(soundToggle)
+				{
+					soundPlayer[0].Play ();
+				}
+				levelSelectSetup();
+				setupLevelGraphics(0);
+				startB.SetPosition(screenW/1.2f - startB.Width/2, screenH - 90);
+				startB.Visible = true;
+				startB.Width = backToMenu.Width;
+				startB.Height = backToMenu.Height;
+				exitB.Visible = false;
+				startB.Alpha = 0.0f;
+				backToMenu.SetPosition(startB.X, startB.Y);
+				backToMenu.Visible = true;
+			};
+			
+			exitB.ButtonAction += (sender, e) => 
+			{
+				quitGame = true;
+			};
+		
+			initLevelButtons();
+			
+
+		}
+		
+		public static void initButtons(Panel panel)
+		{
+			mainGameB = makeButton (mainGameB, panel, 50, 150, screenW/2, screenH/2, "Button", "Start Game", true);
+			mainGameB.SetPosition(screenW/2 - mainGameB.Width/2 + 5, screenH/2 - mainGameB.Height-10);
+			
+
+			mainGameB.Alpha = 0.000001f;
+			
+			scoreB = makeButton (scoreB, panel, 50, 200, screenW/2, screenH/2, "Score", "Go to Score", false);
+			scoreB.SetPosition(screenW/2 - mainGameB.Width/2, screenH/2 - mainGameB.Height/2);
+			
+			highScoreB = makeButton (highScoreB, panel, 50, 200, screenW/2, screenH/2, "High Score", "Go to High Score", false);
+			highScoreB.SetPosition(screenW/2 - mainGameB.Width/2, screenH/1.2f - mainGameB.Height/2);
+			highScoreB.Alpha = 0.0f;
+			highScoreBox.Width = highScoreB.Width;
+			highScoreBox.Height = highScoreB.Height;
+			highScoreBox.SetPosition(highScoreB.X, highScoreB.Y);
+
+			
+			
+			
+			startB = makeButton (startB, panel, 50, 200, screenW/2, screenH/2, "Start", "Go to Start", false);
+			startB.SetPosition(screenW/2 - mainGameB.Width/2, screenH/2 - mainGameB.Height/2);
+			startB.Width = 200;
+			startB.Height = 50;
+
+			
+			musicB = makeButton (musicB, panel, 50, 200, screenW/2, screenH/2, "Music", "Music ON", false);
+			musicB.SetPosition(screenW - (mainGameB.Width + 150), screenH/2 - musicB.Height/2);
+			musicB.Height = music1.Height;
+			musicB.Width = music1.Width;
+			musicB.Alpha = 0.0f;
+			music1.SetPosition(musicB.X, musicB.Y);
+			music2.SetPosition(musicB.X, musicB.Y);
+			music1.Visible = false;
+			music2.Visible = false;
+			
+			
+			
+			soundB = makeButton (soundB, panel, 50, 200, screenW/2, screenH/2, "Sound", "Sound ON", false);
+			soundB.SetPosition(100, screenH/2 - soundB.Height/2);
+			soundB.Height = sound1.Height;
+			soundB.Width = sound1.Width;
+			soundB.Alpha = 0.0f;
+			sound1.SetPosition(soundB.X, soundB.Y);
+			sound2.SetPosition(soundB.X, soundB.Y);
+			sound1.Visible = false;
+			sound2.Visible = false;
+			
+			optionB = makeButton (optionB, panel, 50, 150, screenW/2, screenH/2, "Options", "Options", true);
+			optionB.SetPosition(screenW/2 - optionB.Width/2 + 5, screenH/1.5f - optionB.Height/2+35);
+			optionB.Alpha = 0.0f;
+			
+			levelB = makeButton(levelB, panel, 50, 150, screenW/2, screenH/2, "LevelSelect", "Level Select", true);
+			levelB.SetPosition(screenW/2 - levelB.Width/2 + 5, screenH/2 - levelB.Height/2+40);
+			levelB.Alpha = 0.0f;
+			
+			infiniteB = makeButton (infiniteB, panel, 50, 150, screenW/2, screenH/2, "Infinity", "Infinite Mode", true);
+			infiniteB.SetPosition(0 + infiniteB.Width/2,  screenH - (infiniteB.Height + 50));
+			infiniteB.Alpha = 0.0f;
+			infiniteBox.SetPosition(infiniteB.X, infiniteB.Y);
+			infiniteBox.Visible = true;
+			
+			retryB = makeButton(retryB, panel, 50, 150, screenW/2, screenH/2, "Retry", "Retry Level", false);
+			retryB.Width = retryLevel.Width;
+			retryB.Height = retryLevel.Height;
+			retryB.SetPosition(screenW/2 - retryB.Width/2, screenH/2 - retryB.Height/2);
+			retryB.Alpha = 0.0f;
+			retryLevel.SetPosition(retryB.X, retryB.Y);
+			retryLevel.Visible = false;
+			
+			exitB = makeButton(exitB, panel, 50, 150, screenW/2, screenH/2, "exit", "Exit", true);
+			exitB.SetPosition(screenW/2 - exitB.Width/2 + 5, screenH/1.2f-10 - exitB.Height/2+40);
+			exitB.Alpha = 0.0f;
+			
+			int j = 0;
+			int k = 0;
+			for(int i = 0; i <= levelCount - 1; i++)
+			{
+				levels[i] = makeButton(levels[i], panel, 50, 200, screenW/2, screenH/2, i+1.ToString(), "Level " + (i+1).ToString(), false);
+				if(i < 3)
+				{
+					levels[i].SetPosition (screenW/30 + (levels[i].Width/2 + i*250), screenH/4);
+				} else if (i < 6)
+				{
+					levels[i].SetPosition (screenW/30 + (levels[i].Width/2 + j*250), screenH/2.5f - levels[i].Height/4);
+					j++;
+				} else if (i < 9)
+				{
+					levels[i].SetPosition (screenW/30 + (levels[i].Width/2 + k*250), screenH/2);
+					k++;
+				} else if (i == 9)
+				{
+					levels[i].SetPosition (screenW/2 - levels[i].Width/2, screenH/1.5f);
+				}
+				levelIcons[i].Width = levels[i].Width;
+				levelIcons[i].Height = levels[i].Height;
+				levelIcons[i].SetPosition(levels[i].X, levels[i].Y);
+			}
+			
+				
+
 		}
 		
 		public static void changeSong(Bgm m)
@@ -535,7 +1100,128 @@ namespace Bloody_Birds
 				musicPlayer = m.CreatePlayer();
 				musicPlayer.Loop = true;
 				musicPlayer.Play ();
-				musicPlayer.Volume = 0.05f;
+				musicPlayer.Volume = volume;
+		}
+		
+		public static void initLevelButtons()
+		{
+			
+			levels[0].ButtonAction += (sender, e) => 
+			{
+				if(soundToggle)
+				{
+					soundPlayer[0].Play ();
+				}
+				
+				gameScreenSetup(1);
+				currentL = 1;
+				
+			};
+			
+			levels[1].ButtonAction += (sender, e) => 
+			{
+				if(soundToggle)
+				{
+					soundPlayer[0].Play ();
+				}
+				
+				gameScreenSetup(2);
+				currentL = 2;
+			};
+			
+			levels[2].ButtonAction += (sender, e) => 
+			{
+				if(soundToggle)
+				{
+					soundPlayer[0].Play ();
+				}
+				
+				gameScreenSetup(3);
+				currentL = 3;
+			};
+			
+			levels[3].ButtonAction += (sender, e) => 
+			{
+				if(soundToggle)
+				{
+					soundPlayer[0].Play ();
+				}
+				
+				gameScreenSetup(4);
+				currentL = 4;
+				
+			};
+			
+			levels[4].ButtonAction += (sender, e) => 
+			{
+				if(soundToggle)
+				{
+					soundPlayer[0].Play ();
+				}
+				
+				gameScreenSetup(5);
+				currentL = 5;
+				
+			};
+			
+			levels[5].ButtonAction += (sender, e) => 
+			{
+				if(soundToggle)
+				{
+					soundPlayer[0].Play ();
+				}
+				
+				gameScreenSetup(6);
+				currentL = 6;
+				
+			};
+			
+			levels[6].ButtonAction += (sender, e) => 
+			{
+				if(soundToggle)
+				{
+					soundPlayer[0].Play ();
+				}
+				
+				gameScreenSetup(7);
+				currentL = 7;
+				
+			};
+			
+			levels[7].ButtonAction += (sender, e) => 
+			{
+				if(soundToggle)
+				{
+					soundPlayer[0].Play ();
+				}
+				
+				gameScreenSetup(8);
+				currentL = 8;	
+			};
+			
+			levels[8].ButtonAction += (sender, e) => 
+			{
+				if(soundToggle)
+				{
+					soundPlayer[0].Play ();
+				}
+				
+				gameScreenSetup(9);
+				currentL = 9;
+				
+			};
+			
+			levels[9].ButtonAction += (sender, e) => 
+			{
+				if(soundToggle)
+				{
+					soundPlayer[0].Play ();
+				}
+				
+				gameScreenSetup(10);
+				currentL = 10;
+				
+			};
 		}
 	}
 }

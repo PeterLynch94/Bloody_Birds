@@ -1,9 +1,9 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" />
   <MonoDevelop.Ide.Workbench ActiveDocument="AppMain.cs">
     <Files>
-      <File FileName="AppMain.cs" Line="390" Column="39" />
-      <File FileName="enemy.cs" Line="1" Column="1" />
+      <File FileName="AppMain.cs" Line="347" Column="23" />
+      <File FileName="enemy.cs" Line="37" Column="47" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
